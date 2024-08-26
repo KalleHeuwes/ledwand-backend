@@ -16,12 +16,23 @@ public class Spielstand {
 
     private int gast;
 
+    private String hg;
+
+    private int tsNummer;
+
     // Constructors, getters, and setters
     public Spielstand() {}
 
     public Spielstand(int heim, int gast) {
         this.heim = heim;
         this.gast = gast;
+    }
+
+    public Spielstand(int heim, int gast, String hg, int tsNummer) {
+        this.heim = heim;
+        this.gast = gast;
+        this.hg = hg;
+        this.tsNummer = tsNummer;
     }
 
     public int getHeim() {
@@ -38,6 +49,22 @@ public class Spielstand {
 
     public void setGast(int gast) {
         this.gast = gast;
+    }
+
+    public String getHg() {
+        return hg;
+    }
+
+    public void setHg(String hg) {
+        this.hg = hg;
+    }
+
+    public int getTsNummer() {
+        return tsNummer;
+    }
+
+    public void setTsNummer(int tsNummer) {
+        this.tsNummer = tsNummer;
     }
 
     public String toString(){

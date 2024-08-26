@@ -12,7 +12,7 @@ public class FootballForTheWallApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FootballForTheWallApplication.class, args);
 	}
-/*
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
@@ -20,11 +20,14 @@ public class FootballForTheWallApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				System.out.println("addCorsMappings ...");
-				registry.addMapping("/**");
-				System.out.println(registry.toString());
+				registry.addMapping("/**") // Apply CORS to all paths
+						.allowedOrigins("*") // Allow all origins
+						.allowedMethods("*") // Allow all HTTP methods
+						.allowedHeaders("*"); // Allow all headers
+						//.allowCredentials(true); // Allow credentials (cookies, etc.)
+				System.out.println("Bean WebMvcConfigurer.corsConfigurer.addCorsMappings");
 			}
 		};
 	}
- */
 
 }

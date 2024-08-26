@@ -25,6 +25,7 @@ public class SpielstandService {
 
     public Spielstand saveSpielstand(Spielstand spielstand) {
         System.out.println("Spielstand gespeichert: " + spielstand.toString());
+        spielstandRepository.deleteAll();
         return spielstandRepository.save(spielstand);
     }
 
