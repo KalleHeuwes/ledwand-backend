@@ -5,20 +5,12 @@ import de.kheuwes.footballforwall.service.SpielstandService;
 import de.kheuwes.utils.ClipUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -45,8 +37,16 @@ public class SpielstandController {
     }
     @PatchMapping
     public Spielstand updateSpielstand(@RequestBody Spielstand spielstand) throws IOException {
-        ClipUtils clipUtils = new ClipUtils(spielstand);
-        clipUtils.playSoundfiles();
+        if("H".equalsIgnoreCase(spielstand.getHg().toUpperCase()) || 
+           "G".equalsIgnoreCase(spielstand.getHg().toUpperCase()))
+           {
+            System.out.println("Neuen Spielstand ansagen ...");
+            ClipUtils clipUtils = new ClipUtils(spielstand);
+            clipUtils.playSoundfiles();
+        }
+        else{
+            System.out.println(spielstand);
+        }
         return spielstandService.saveSpielstand(spielstand);
     }
 

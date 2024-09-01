@@ -67,8 +67,10 @@ public class Spielstand {
         this.tsNummer = tsNummer;
     }
 
-    public String toString(){
-        return "" + this.heim + ':' + this.gast;
+    @Override
+    public String toString() {
+        return "Spielstand [id=" + id + ", heim=" + heim + ", gast=" + gast + ", hg=" + hg + ", tsNummer=" + tsNummer
+                + "]";
     }
     
 }
