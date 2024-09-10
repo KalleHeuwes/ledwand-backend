@@ -40,13 +40,11 @@ public class SpielstandController {
         if("H".equalsIgnoreCase(spielstand.getHg().toUpperCase()) || 
            "G".equalsIgnoreCase(spielstand.getHg().toUpperCase()))
            {
-            System.out.println("Neuen Spielstand ansagen ...");
-            ClipUtils clipUtils = new ClipUtils(spielstand);
-            clipUtils.playSoundfiles();
+            // System.out.println("Neuen Spielstand ansagen ...");
+            // ClipUtils clipUtils = new ClipUtils(spielstand);
+            // clipUtils.playSoundfiles();
         }
-        else{
-            System.out.println(spielstand);
-        }
+        System.out.println(spielstand);
         return spielstandService.saveSpielstand(spielstand);
     }
 
