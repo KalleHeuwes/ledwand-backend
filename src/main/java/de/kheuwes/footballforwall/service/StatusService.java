@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import de.kheuwes.footballforwall.model.Statuseintrag;
 import de.kheuwes.footballforwall.repository.StatusRepository;
 
+@Service
 public class StatusService {
     @Autowired
     private StatusRepository repository;

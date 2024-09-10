@@ -11,14 +11,14 @@ public class Statuseintrag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    public int minute = -1;
+    public int dieminute = 0;
     public String typ = "";
     public String name = "";
     public String bemerkung = "";
     
     @Override
     public String toString() {
-        return "Statuseintrag [id=" + id + ", minute=" + minute + ", typ=" + typ + ", name=" + name + ", bemerkung="
+        return "Statuseintrag [id=" + id + ", minute=" + dieminute + ", typ=" + typ + ", name=" + name + ", bemerkung="
                 + bemerkung + "]";
     }
 
@@ -26,7 +26,7 @@ public class Statuseintrag {
     }
 
     public Statuseintrag(int minute, String typ, String name, String bemerkung) {
-        this.minute = minute;
+        this.dieminute = minute;
         this.typ = typ;
         this.name = name;
         this.bemerkung = bemerkung;
@@ -37,11 +37,11 @@ public class Statuseintrag {
     public void setId(Long id) {
         this.id = id;
     }
-    public int getMinute() {
-        return minute;
+    public int getDieminute() {
+        return dieminute;
     }
-    public void setMinute(int minute) {
-        this.minute = minute;
+    public void setDieminute(int minute) {
+        this.dieminute = minute;
     }
     public String getTyp() {
         return typ;
