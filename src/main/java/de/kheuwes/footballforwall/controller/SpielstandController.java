@@ -1,7 +1,9 @@
 package de.kheuwes.footballforwall.controller;
 
 import de.kheuwes.footballforwall.model.Spielstand;
+import de.kheuwes.footballforwall.model.Statuseintrag;
 import de.kheuwes.footballforwall.service.SpielstandService;
+import de.kheuwes.footballforwall.service.StatusService;
 import de.kheuwes.utils.ClipUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class SpielstandController {
     @Autowired
     private SpielstandService spielstandService;
 
+    @Autowired
+    private StatusService statusService;
+
     @GetMapping
     public List<Spielstand> getAllMatches() {
         return spielstandService.getAllSpielstands();
@@ -31,10 +36,27 @@ public class SpielstandController {
         return match.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PostMapping("/torfueruns")
+    public Spielstand torFuerUns(@RequestBody Statuseintrag statuseintrag) {
+        Spielstand spielstandAlt = spielstandService.getAllSpielstands().get(0);
+        spielstandAlt.setHeim(spielstandAlt.getHeim() + 1);
+        statusService.saveStatuseintrag(statuseintrag);
+        return spielstandService.saveSpielstand(spielstandAlt);
+    }
+
+    @PostMapping("/torfuergast")
+    public Spielstand torFuerGast(@RequestBody Statuseintrag statuseintrag) {
+        Spielstand spielstandAlt = spielstandService.getAllSpielstands().get(0);
+        spielstandAlt.setGast(spielstandAlt.getGast() + 1);
+        statusService.saveStatuseintrag(statuseintrag);
+        return spielstandService.saveSpielstand(spielstandAlt);
+    }
+
     @PostMapping
     public Spielstand createSpielstand(@RequestBody Spielstand spielstand) {
         return spielstandService.saveSpielstand(spielstand);
     }
+
     @PatchMapping
     public Spielstand updateSpielstand(@RequestBody Spielstand spielstand) throws IOException {
         if("H".equalsIgnoreCase(spielstand.getHg().toUpperCase()) || 
