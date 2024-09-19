@@ -102,13 +102,69 @@
 			"name": "Status",
 			"item": [
 				{
-					"name": "Statuseintrag Anlegen",
+					"name": "Statuseintrag Anlegen Tor für uns",
 					"request": {
-						"method": "PATCH",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"minute\": \"23\",\"typ\": \"TH\",\"name\": \"Marius Schomaker\", \"bemerkung\": \"Saisontor Nr. 4\"}",
+							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"23\",\r\n    \"hg\": \"H\",\r\n    \"rueckennummer\": \"24\",\r\n    \"spielername\": \"Marius Schomaker\",\r\n    \"zusatz\": \"Saisontor Nr. 4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Statuseintrag Anlegen Tor für den Gast",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"32\",\r\n    \"hg\": \"G\",\r\n    \"rueckennummer\": \"0\",\r\n    \"spielername\": \"\",\r\n    \"zusatz\": \"FE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Statuseintrag Anlegen Foulelfmeter für den Gast verschossen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"32\",\r\n    \"hg\": \"G\",\r\n    \"rueckennummer\": \"0\",\r\n    \"spielername\": \"\",\r\n    \"zusatz\": \"FE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
