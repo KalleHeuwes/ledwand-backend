@@ -19,6 +19,23 @@ public class StatusService {
         return repository.findAll();
     }
 
+    public String getLaufschrift(){
+        String ret = "";
+        int toreHeim = 0, toreGast = 0;
+        for(Statuseintrag statuseintrag: getAllStatuseintraege()){
+            ret+= "(" + statuseintrag.getSpielminute() + ".)";
+            if("T".equalsIgnoreCase(statuseintrag.getTyp())){
+                if("H".equalsIgnoreCase(statuseintrag.getHg())){ toreHeim++; }
+                if("G".equalsIgnoreCase(statuseintrag.getHg())){ toreGast++; }
+                ret+= " " + toreHeim + ":" + toreGast;
+                if("H".equalsIgnoreCase(statuseintrag.getHg())){ 
+                    ret+= " " + statuseintrag.getSpielername() + " (" + statuseintrag.getRueckennumer() + ") ";
+                }
+            }
+        }
+        return ret+="; ";
+    }
+
     public Optional<Statuseintrag> getStatuseintragById(Long id) {
         return repository.findById(id);
     }

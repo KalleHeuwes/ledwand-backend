@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"heim\": \"0\",\"gast\": \"0\",\"hg\": \"H\", \"tsNummer\": 9}",
+							"raw": "{\"heim\": \"0\",\"gast\": \"0\",\"hg\": \"I\", \"tsNummer\": 0}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -108,7 +108,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"23\",\r\n    \"hg\": \"H\",\r\n    \"rueckennummer\": \"24\",\r\n    \"spielername\": \"Marius Schomaker\",\r\n    \"zusatz\": \"Saisontor Nr. 4\"\r\n}",
+							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"85\",\r\n    \"hg\": \"H\",\r\n    \"rueckennummer\": \"24\",\r\n    \"spielername\": \"Marius Schomaker\",\r\n    \"zusatz\": \"Saisontor Nr. 4\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -130,13 +130,71 @@
 					"response": []
 				},
 				{
-					"name": "Tor für uns",
+					"name": "Tor für uns 1:0",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"23\",\r\n    \"hg\": \"H\",\r\n    \"rueckennummer\": \"24\",\r\n    \"spielername\": \"Marius Schomaker\",\r\n    \"zusatz\": \"Saisontor Nr. 4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/spielstand/torfueruns",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"spielstand",
+								"torfueruns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tor für uns 2:0",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"32\",\r\n    \"hg\": \"H\",\r\n    \"rueckennummer\": \"9\",\r\n    \"spielername\": \"Niklaas Houghton\",\r\n    \"zusatz\": \"Saisontor Nr. 4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/spielstand/torfueruns",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"spielstand",
+								"torfueruns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tor für uns 3:0",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"32\",\r\n    \"hg\": \"H\",\r\n    \"rueckennummer\": \"9\",\r\n    \"spielername\": \"Niklaas Houghton\",\r\n    \"zusatz\": \"Saisontor Nr. 4\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -193,7 +251,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"32\",\r\n    \"hg\": \"G\",\r\n    \"rueckennummer\": \"0\",\r\n    \"spielername\": \"\",\r\n    \"zusatz\": \"FE\"\r\n}",
+							"raw": "{\r\n    \"typ\": \"T\",\r\n    \"spielminute\": \"67\",\r\n    \"hg\": \"G\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -245,6 +303,37 @@
 				},
 				{
 					"name": "Statuseinträge Anzeigen",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\": \"1\", \"heim\": \"2\", \"gast\": \"0\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Laufschrift Anzeigen",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},

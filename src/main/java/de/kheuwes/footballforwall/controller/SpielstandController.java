@@ -36,18 +36,27 @@ public class SpielstandController {
         return match.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/laufschrift")
+    public String getLaufschrift() {
+        return statusService.getLaufschrift();
+    }
+
     @PostMapping("/torfueruns")
     public Spielstand torFuerUns(@RequestBody Statuseintrag statuseintrag) {
-        Spielstand spielstandAlt = spielstandService.getAllSpielstands().get(0);
-        spielstandAlt.setHeim(spielstandAlt.getHeim() + 1);
-        statusService.saveStatuseintrag(statuseintrag);
-        return spielstandService.saveSpielstand(spielstandAlt);
+        return torVerbuchen(statuseintrag, 1,0, "H");
     }
 
     @PostMapping("/torfuergast")
     public Spielstand torFuerGast(@RequestBody Statuseintrag statuseintrag) {
+        return torVerbuchen(statuseintrag, 0,1, "G");
+    }
+
+    private Spielstand torVerbuchen(Statuseintrag statuseintrag, int heim,int gast, String hg){
         Spielstand spielstandAlt = spielstandService.getAllSpielstands().get(0);
-        spielstandAlt.setGast(spielstandAlt.getGast() + 1);
+        spielstandAlt.setHeim(spielstandAlt.getHeim() + heim);
+        spielstandAlt.setGast(spielstandAlt.getGast() + gast);
+        spielstandAlt.setHg(hg);
+        spielstandAlt.setTsNummer(statuseintrag.getRueckennumer());
         statusService.saveStatuseintrag(statuseintrag);
         return spielstandService.saveSpielstand(spielstandAlt);
     }
