@@ -29,6 +29,12 @@ public class SpielstandService {
         return spielstandRepository.save(spielstand);
     }
 
+    public Spielstand createSpielstand() {
+        System.out.println("Spielstand erzeugt");
+        spielstandRepository.deleteAll();
+        return spielstandRepository.save(new Spielstand(0, 0));
+    }
+
     public void deleteSpielstand(Long id) {
         spielstandRepository.deleteById(id);
     }

@@ -13,18 +13,18 @@ public class Statuseintrag {
     public String typ = "";
     public int spielminute = 0;
     public String hg = "";
-    public int rueckennumer = 0;
+    public int rueckennummer = 0;
     public String spielername = "";
     public String zusatz = "";
 
     public Statuseintrag() {
     }
 
-    public Statuseintrag(String typ, int spielminute, String hg, int rueckennumer, String spielername, String zusatz) {
+    public Statuseintrag(String typ, int spielminute, String hg, int rueckennummer, String spielername, String zusatz) {
         this.typ = typ;
         this.spielminute = spielminute;
         this.hg = hg;
-        this.rueckennumer = rueckennumer;
+        this.rueckennummer = rueckennummer;
         this.spielername = spielername;
         this.zusatz = zusatz;
     }
@@ -32,7 +32,7 @@ public class Statuseintrag {
     @Override
     public String toString() {
         return "Statuseintrag [id=" + id + ", typ=" + typ + ", spielminute=" + spielminute + ", hg=" + hg
-                + ", rueckennumer=" + rueckennumer + ", spielername=" + spielername + ", zusatz=" + zusatz + "]";
+                + ", rueckennumer=" + rueckennummer + ", spielername=" + spielername + ", zusatz=" + zusatz + "]";
     }
 
     public Long getId() {
@@ -67,12 +67,12 @@ public class Statuseintrag {
         this.hg = hg;
     }
 
-    public int getRueckennumer() {
-        return rueckennumer;
+    public int getRueckennummer() {
+        return rueckennummer;
     }
 
-    public void setRueckennumer(int rueckennumer) {
-        this.rueckennumer = rueckennumer;
+    public void setRueckennummer(int rueckennummer) {
+        this.rueckennummer = rueckennummer;
     }
 
     public String getSpielername() {

@@ -29,11 +29,12 @@ public class StatusService {
                 if("G".equalsIgnoreCase(statuseintrag.getHg())){ toreGast++; }
                 ret+= " " + toreHeim + ":" + toreGast;
                 if("H".equalsIgnoreCase(statuseintrag.getHg())){ 
-                    ret+= " " + statuseintrag.getSpielername() + " (" + statuseintrag.getRueckennumer() + ") ";
+                    ret+= " " + statuseintrag.getSpielername() + " (" + statuseintrag.getRueckennummer() + ") ";
                 }
             }
+            ret+="; ";
         }
-        return ret+="; ";
+        return ret;
     }
 
     public Optional<Statuseintrag> getStatuseintragById(Long id) {

@@ -4,8 +4,6 @@ import de.kheuwes.footballforwall.model.Spielstand;
 import de.kheuwes.footballforwall.model.Statuseintrag;
 import de.kheuwes.footballforwall.service.SpielstandService;
 import de.kheuwes.footballforwall.service.StatusService;
-import de.kheuwes.utils.ClipUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,12 +50,17 @@ public class SpielstandController {
     }
 
     private Spielstand torVerbuchen(Statuseintrag statuseintrag, int heim,int gast, String hg){
+        if(spielstandService.getAllSpielstands().size() == 0){
+            spielstandService.createSpielstand();
+        }
         Spielstand spielstandAlt = spielstandService.getAllSpielstands().get(0);
         spielstandAlt.setHeim(spielstandAlt.getHeim() + heim);
         spielstandAlt.setGast(spielstandAlt.getGast() + gast);
         spielstandAlt.setHg(hg);
-        spielstandAlt.setTsNummer(statuseintrag.getRueckennumer());
+        spielstandAlt.setTsNummer(statuseintrag.getRueckennummer());
         statusService.saveStatuseintrag(statuseintrag);
+        System.out.println(statuseintrag);
+        System.out.println(spielstandAlt);
         return spielstandService.saveSpielstand(spielstandAlt);
     }
 

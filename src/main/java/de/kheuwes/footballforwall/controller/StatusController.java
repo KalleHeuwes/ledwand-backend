@@ -48,9 +48,4 @@ public class StatusController {
     public KeyValuePair setAnpfiff(@PathVariable String hz, @PathVariable String uhrzeit) {
         return keyValueService.saveKeyValuePair(new KeyValuePair("Anpfiff Hz " + hz, uhrzeit));
     }
-
-    @GetMapping("/keyValuePairs")
-    public List<KeyValuePair> getAllKeyValuePairs() {
-        return keyValueService.getAllKeyValuePairs();
-    }
 }
