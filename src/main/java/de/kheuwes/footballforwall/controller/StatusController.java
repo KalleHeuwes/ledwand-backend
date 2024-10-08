@@ -48,4 +48,19 @@ public class StatusController {
     public KeyValuePair setAnpfiff(@PathVariable String hz, @PathVariable String uhrzeit) {
         return keyValueService.saveKeyValuePair(new KeyValuePair("Anpfiff Hz " + hz, uhrzeit));
     }
+
+    @GetMapping("/anpfiff")
+    public String getAnpfiff() {
+        String ret = "";
+        List<KeyValuePair> kvs = keyValueService.getAllKeyValuePairs();
+        for (KeyValuePair kvp : kvs) {
+            if("Anpfiff Hz 1".equalsIgnoreCase(kvp.getKeyName())){
+                ret = "{\"hz\": 1, \"uhrzeit\": \"" + kvp.getValueStr() + "\"}";
+            }            
+            if("Anpfiff Hz 2".equalsIgnoreCase(kvp.getKeyName())){
+                ret = "{\"hz\": 2, \"uhrzeit\": \"" + kvp.getValueStr() + "\"}";
+            }
+        }
+        return ret;
+    }
 }
