@@ -49,6 +49,11 @@ public class StatusController {
         return keyValueService.saveKeyValuePair(new KeyValuePair("Anpfiff Hz " + hz, uhrzeit));
     }
 
+    @PostMapping("/nachspielzeit/{nachspielzeit}")
+    public KeyValuePair setNachspielzeit(@PathVariable String nachspielzeit) {
+        return keyValueService.saveKeyValuePair(new KeyValuePair("Nachspielzeit", nachspielzeit));
+    }
+
     @GetMapping("/anpfiff")
     public String getAnpfiff() {
         String ret = "";
