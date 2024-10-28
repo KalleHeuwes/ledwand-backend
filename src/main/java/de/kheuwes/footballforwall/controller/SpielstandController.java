@@ -49,16 +49,21 @@ public class SpielstandController {
         return torVerbuchen(statuseintrag, 0,1, "G");
     }
 
-    private Spielstand torVerbuchen(Statuseintrag statuseintrag, int heim,int gast, String hg){
+    private Spielstand getAktSpielstand(){
         if(spielstandService.getAllSpielstands().size() == 0){
             spielstandService.createSpielstand();
         }
-        Spielstand spielstandAlt = spielstandService.getAllSpielstands().get(0);
+        return spielstandService.getAllSpielstands().get(0);
+    }
+
+    private Spielstand torVerbuchen(Statuseintrag statuseintrag, int heim,int gast, String hg){
+        Spielstand spielstandAlt = getAktSpielstand();
         spielstandAlt.setHeim(spielstandAlt.getHeim() + heim);
         spielstandAlt.setGast(spielstandAlt.getGast() + gast);
         spielstandAlt.setHg(hg);
         spielstandAlt.setTsNummer(statuseintrag.getRueckennummer());
         statusService.saveStatuseintrag(statuseintrag);
+        spielstandAlt.setStatusKz("T");
         System.out.println(statuseintrag);
         System.out.println(spielstandAlt);
         return spielstandService.saveSpielstand(spielstandAlt);

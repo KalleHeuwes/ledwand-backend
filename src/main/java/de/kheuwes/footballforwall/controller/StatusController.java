@@ -1,8 +1,10 @@
 package de.kheuwes.footballforwall.controller;
 
 import de.kheuwes.footballforwall.model.KeyValuePair;
+import de.kheuwes.footballforwall.model.Spielstand;
 import de.kheuwes.footballforwall.model.Statuseintrag;
 import de.kheuwes.footballforwall.service.KeyValueService;
+import de.kheuwes.footballforwall.service.SpielstandService;
 import de.kheuwes.footballforwall.service.StatusService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,18 @@ public class StatusController {
     @Autowired
     private StatusService statusService;
 
+    @Autowired
+    private SpielstandService spielstandService;
+    
     @GetMapping
     public List<Statuseintrag> getAllStatuseintraege() {
         return statusService.getAllStatuseintraege();
+    }
+
+    @GetMapping("/status")
+    public String getStatusKz() {
+        Spielstand spielstandAlt = getAktSpielstand();
+        return spielstandAlt.getStatusKz();
     }
 
     @GetMapping("/{id}")
@@ -67,5 +78,12 @@ public class StatusController {
             }
         }
         return ret;
+    }
+    
+    private Spielstand getAktSpielstand(){
+        if(spielstandService.getAllSpielstands().size() == 0){
+            spielstandService.createSpielstand();
+        }
+        return spielstandService.getAllSpielstands().get(0);
     }
 }
