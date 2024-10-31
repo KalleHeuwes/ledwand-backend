@@ -33,8 +33,8 @@ npm i --save ngx-mat-timepicker
 ## GIT
 git add .
 git commit -m "20240828 a"
-git push -f origin master
-git pull -f origin master
+git push
+git pull
 
 PushToGit "20241031 a"
 
