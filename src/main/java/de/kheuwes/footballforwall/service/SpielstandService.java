@@ -23,8 +23,21 @@ public class SpielstandService {
         return spielstandRepository.findById(id);
     }
 
+    public Spielstand getSpielstand() {
+        Spielstand spielstand = null;
+        List<Spielstand> spielstaende = spielstandRepository.findAll();
+        if(spielstaende.size()==0){
+            spielstand = new Spielstand(0, 0);
+            saveSpielstand(spielstand);
+            
+        }else{
+            spielstand = spielstaende.get(0);
+        }
+        return spielstand;
+    }
+
     public Spielstand saveSpielstand(Spielstand spielstand) {
-        System.out.println("Spielstand gespeichert: " + spielstand.toString());
+        System.out.println("Spielstand speichern: " + spielstand.toString());
         spielstandRepository.deleteAll();
         return spielstandRepository.save(spielstand);
     }

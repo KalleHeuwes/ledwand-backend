@@ -49,15 +49,8 @@ public class SpielstandController {
         return torVerbuchen(statuseintrag, 0,1, "G");
     }
 
-    private Spielstand getAktSpielstand(){
-        if(spielstandService.getAllSpielstands().size() == 0){
-            spielstandService.createSpielstand();
-        }
-        return spielstandService.getAllSpielstands().get(0);
-    }
-
     private Spielstand torVerbuchen(Statuseintrag statuseintrag, int heim,int gast, String hg){
-        Spielstand spielstandAlt = getAktSpielstand();
+        Spielstand spielstandAlt = spielstandService.getSpielstand();
         spielstandAlt.setHeim(spielstandAlt.getHeim() + heim);
         spielstandAlt.setGast(spielstandAlt.getGast() + gast);
         spielstandAlt.setHg(hg);

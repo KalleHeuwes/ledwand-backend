@@ -34,13 +34,13 @@ public class StatusController {
 
     @GetMapping("/status")
     public String getStatusKz() {
-        Spielstand spielstandAlt = getAktSpielstand();
+        Spielstand spielstandAlt = spielstandService.getSpielstand();
         return spielstandAlt.getStatusKz();
     }
 
     @PostMapping("/resetstatus")
     public String setStatusKz() {
-        Spielstand spielstandAlt = getAktSpielstand();
+        Spielstand spielstandAlt = spielstandService.getSpielstand();
         setStatusKennzeichen("");
         return spielstandAlt.getStatusKz();
     }
@@ -64,6 +64,7 @@ public class StatusController {
 
     @PostMapping("/anpfiff/{hz}/{uhrzeit}")
     public KeyValuePair setAnpfiff(@PathVariable String hz, @PathVariable String uhrzeit) {
+        setStatusKennzeichen("A");
         return keyValueService.saveKeyValuePair(new KeyValuePair("Anpfiff Hz " + hz, uhrzeit));
     }
 
@@ -84,19 +85,11 @@ public class StatusController {
                 ret = "{\"hz\": 2, \"uhrzeit\": \"" + kvp.getValueStr() + "\"}";
             }
         }
-        setStatusKennzeichen("A");
         return ret;
-    }
-    
-    private Spielstand getAktSpielstand(){
-        if(spielstandService.getAllSpielstands().size() == 0){
-            spielstandService.createSpielstand();
-        }
-        return spielstandService.getAllSpielstands().get(0);
     }
 
     private void setStatusKennzeichen(String statusKz){
-        Spielstand spielstandAlt = getAktSpielstand();
+        Spielstand spielstandAlt = spielstandService.getSpielstand();
         spielstandAlt.setStatusKz(statusKz);
         spielstandService.saveSpielstand(spielstandAlt);
         System.out.println("Statuskennzeichen gesetzt auf: " + statusKz);
