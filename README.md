@@ -36,6 +36,7 @@ git commit -m "20240828 a"
 git push
 git pull
 
-PushToGit "20241031 a"
+GitPush "20241031 a"
+GitPull
 
 ng serve --host 0.0.0.0
