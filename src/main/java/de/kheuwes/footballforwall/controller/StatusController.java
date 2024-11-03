@@ -1,10 +1,8 @@
 package de.kheuwes.footballforwall.controller;
 
 import de.kheuwes.footballforwall.model.KeyValuePair;
-import de.kheuwes.footballforwall.model.Spielstand;
 import de.kheuwes.footballforwall.model.Statuseintrag;
 import de.kheuwes.footballforwall.service.KeyValueService;
-import de.kheuwes.footballforwall.service.SpielstandService;
 import de.kheuwes.footballforwall.service.StatusService;
 
 import org.springframework.beans.factory.annotation.Autowired;
