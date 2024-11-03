@@ -56,7 +56,7 @@ public class SpielstandController {
         spielstandAlt.setHg(hg);
         spielstandAlt.setTsNummer(statuseintrag.getRueckennummer());
         statusService.saveStatuseintrag(statuseintrag);
-        spielstandAlt.setStatusKz("T");
+        statusService.setStatusKennzeichen("T");
         System.out.println(statuseintrag);
         System.out.println(spielstandAlt);
         return spielstandService.saveSpielstand(spielstandAlt);

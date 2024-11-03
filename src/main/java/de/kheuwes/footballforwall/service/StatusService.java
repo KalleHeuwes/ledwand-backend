@@ -14,7 +14,9 @@ public class StatusService {
     @Autowired
     private StatusRepository repository;
 
-    
+    private String statusKennzeichen = "";
+    private String spielerwechsel = "";
+
     public List<Statuseintrag> getAllStatuseintraege() {
         return repository.findAll();
     }
@@ -47,5 +49,21 @@ public class StatusService {
 
     public void deleteStatuseintrag(Long id) {
         repository.deleteById(id);
+    }
+        
+    public String getStatusKennzeichen() {
+        return statusKennzeichen;
+    }
+
+    public void setStatusKennzeichen(String statusKennzeichen) {
+        this.statusKennzeichen = statusKennzeichen;
+    }
+    
+    public String getSpielerwechsel() {
+        return spielerwechsel;
+    }
+
+    public void setSpielerwechsel(String spielerwechsel) {
+        this.spielerwechsel = spielerwechsel;
     }
 }

@@ -20,7 +20,7 @@ public class Spielstand {
 
     private int tsNummer;
 
-    private String statusKz = "";
+    //private String statusKz = "";
 
     // Constructors, getters, and setters
     public Spielstand() {}
@@ -68,7 +68,7 @@ public class Spielstand {
     public void setTsNummer(int tsNummer) {
         this.tsNummer = tsNummer;
     }
-
+/*
     public String getStatusKz() {
         return statusKz;
     }
@@ -76,12 +76,13 @@ public class Spielstand {
     public void setStatusKz(String statusKz) {
         this.statusKz = statusKz;
     }
+ */
+
 
     @Override
     public String toString() {
         return "Spielstand [id=" + id + ", heim=" + heim + ", gast=" + gast 
-        + ", hg=" + hg + ", tsNummer=" + tsNummer + ", statusKz=" + statusKz
-                + "]";
+        + ", hg=" + hg + ", tsNummer=" + tsNummer        + "]";
     }
     
 }

@@ -24,25 +24,25 @@ public class StatusController {
     @Autowired
     private StatusService statusService;
 
-    @Autowired
-    private SpielstandService spielstandService;
-
     @GetMapping
     public List<Statuseintrag> getAllStatuseintraege() {
         return statusService.getAllStatuseintraege();
     }
 
     @GetMapping("/status")
-    public String getStatusKz() {
-        Spielstand spielstandAlt = spielstandService.getSpielstand();
-        return spielstandAlt.getStatusKz();
+    public String getStatusKennzeichen() {
+        return statusService.getStatusKennzeichen();
     }
 
     @PostMapping("/resetstatus")
-    public String setStatusKz() {
-        Spielstand spielstandAlt = spielstandService.getSpielstand();
+    public String resetstatus() {
         setStatusKennzeichen("");
-        return spielstandAlt.getStatusKz();
+        return statusService.getStatusKennzeichen();
+    }
+
+    private void setStatusKennzeichen(String statusKz){
+        statusService.setStatusKennzeichen(statusKz);
+        System.out.println("Statuskennzeichen gesetzt auf: " + statusKz);
     }
 
     @GetMapping("/{id}")
@@ -88,10 +88,4 @@ public class StatusController {
         return ret;
     }
 
-    private void setStatusKennzeichen(String statusKz){
-        Spielstand spielstandAlt = spielstandService.getSpielstand();
-        spielstandAlt.setStatusKz(statusKz);
-        spielstandService.saveSpielstand(spielstandAlt);
-        System.out.println("Statuskennzeichen gesetzt auf: " + statusKz);
-    }
 }
