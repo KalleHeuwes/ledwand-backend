@@ -1,6 +1,8 @@
 package de.kheuwes.footballforwall.model;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +23,11 @@ public class MatchDay {
         String[] items = null;
         System.out.println("init..." + filename);
         try {
-            InputStream is = MatchDay.class.getResourceAsStream(filename);
+            filename = "D:\\dev\\ledwand-backend\\src\\main\\resources\\static\\assets\\spieltag.csv";
+            System.out.println("Lese Spieltag aus " + filename);
+            //InputStream is = MatchDay.class.getResourceAsStream(filename);
+            File initialFile = new File(filename);
+            InputStream is = new FileInputStream(initialFile);
             InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(streamReader);
             for (String line; (line = reader.readLine()) != null;) {
@@ -52,6 +58,7 @@ public class MatchDay {
                     modus = "B";
                 }
             }
+            reader.close();
         } catch (Exception e) {
             System.out.println("An error occurred.");
             System.err.println(e.getLocalizedMessage());
