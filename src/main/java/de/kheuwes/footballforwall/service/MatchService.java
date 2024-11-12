@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class MatchService {
+    private MatchDay matchDay = null;
 
     @Autowired
     private MatchRepository matchRepository;
@@ -32,8 +33,13 @@ public class MatchService {
     }
 
     public MatchDay readMatchDay(String filename) {
-        MatchDay matchDay = new MatchDay();
-        return matchDay.init(filename);
+        this.matchDay = new MatchDay();
+        this.matchDay.init(filename);
+        return this.matchDay;
+    }
+
+    public MatchDay getMatchDay() {
+        return this.matchDay;
     }
 }
 

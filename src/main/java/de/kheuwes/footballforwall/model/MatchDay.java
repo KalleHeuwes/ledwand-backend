@@ -23,7 +23,7 @@ public class MatchDay {
         String[] items = null;
         System.out.println("init..." + filename);
         try {
-            filename = "D:\\dev\\ledwand-backend\\src\\main\\resources\\static\\assets\\spieltag.csv";
+            filename = "C:\\temp\\spieltag.csv";
             System.out.println("Lese Spieltag aus " + filename);
             //InputStream is = MatchDay.class.getResourceAsStream(filename);
             File initialFile = new File(filename);
@@ -59,6 +59,7 @@ public class MatchDay {
                 }
             }
             reader.close();
+            System.out.println(String.format("Spiel am %s gegen %s, Bild %s", datum, gegner, gegnerBild));
         } catch (Exception e) {
             System.out.println("An error occurred.");
             System.err.println(e.getLocalizedMessage());

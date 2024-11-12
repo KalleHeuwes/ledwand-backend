@@ -1,4 +1,6 @@
-# AngularRouterSample
+# LED-Wand
+
+Die Spieltagsdaten werden gelesen aus: C:\temp\spieltag.csv
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
 
