@@ -79,10 +79,14 @@ public class Spielstand {
  */
 
 
-    @Override
-    public String toString() {
-        return "Spielstand [id=" + id + ", heim=" + heim + ", gast=" + gast 
-        + ", hg=" + hg + ", tsNummer=" + tsNummer        + "]";
-    }
+ @Override
+ public String toString() {
+     return "Spielstand [id=" + id + ", heim=" + heim + ", gast=" + gast 
+     + ", hg=" + hg + ", tsNummer=" + tsNummer        + "]";
+ }
+
+ public String shortString() {
+     return String.format("%s|%s|%s|%s", this.heim, this.gast, this.hg, this.tsNummer);
+ }
     
 }

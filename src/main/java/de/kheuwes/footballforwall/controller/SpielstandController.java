@@ -28,6 +28,12 @@ public class SpielstandController {
         return spielstandService.getAllSpielstands();
     }
 
+    @GetMapping("/string")
+    public String getSpielstandAsString() {
+        Spielstand stand = spielstandService.getSpielstand();
+        return stand.shortString();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Spielstand> getSpielstandById(@PathVariable Long id) {
         Optional<Spielstand> match = spielstandService.getSpielstandById(id);
