@@ -50,6 +50,11 @@ public class StatusService {
     public void deleteStatuseintrag(Long id) {
         repository.deleteById(id);
     }
+
+    public void deleteAll() {
+        System.out.println("StatusService.deleteAll: Alle Statuseinträge gelöscht !");
+        repository.deleteAll();
+    }
         
     public String getStatusKennzeichen() {
         return statusKennzeichen;

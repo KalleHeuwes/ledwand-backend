@@ -10,7 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class FootballForTheWallApplication {
 
 	public static void main(String[] args) {
+		System.out.println("***** FootballForTheWallApplication.main 1");
 		SpringApplication.run(FootballForTheWallApplication.class, args);
+		System.out.println("***** FootballForTheWallApplication.main 2");
 	}
 
 	@Bean

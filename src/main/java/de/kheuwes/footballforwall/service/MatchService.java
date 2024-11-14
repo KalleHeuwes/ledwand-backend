@@ -12,6 +12,9 @@ import java.util.Optional;
 @Service
 public class MatchService {
     private MatchDay matchDay = null;
+    private String anpfiff = null;
+    private String hz = null;
+    private int nachspielzeit = -1;
 
     @Autowired
     private MatchRepository matchRepository;
@@ -35,11 +38,38 @@ public class MatchService {
     public MatchDay readMatchDay(String filename) {
         this.matchDay = new MatchDay();
         this.matchDay.init(filename);
+        setAnpfiff("");
+        setHz("");
+        setNachspielzeit(0);
         return this.matchDay;
     }
 
     public MatchDay getMatchDay() {
         return this.matchDay;
+    }
+
+    public String getAnpfiff() {
+        return anpfiff;
+    }
+
+    public void setAnpfiff(String anpfiff) {
+        this.anpfiff = anpfiff;
+    }
+
+    public String getHz() {
+        return hz;
+    }
+
+    public void setHz(String hz) {
+        this.hz = hz;
+    }
+    
+    public int getNachspielzeit() {
+        return nachspielzeit;
+    }
+
+    public void setNachspielzeit(int nachspielzeit) {
+        this.nachspielzeit = nachspielzeit;
     }
 }
 

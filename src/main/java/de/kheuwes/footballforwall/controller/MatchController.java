@@ -3,6 +3,7 @@ package de.kheuwes.footballforwall.controller;
 import de.kheuwes.footballforwall.model.Match;
 import de.kheuwes.footballforwall.model.MatchDay;
 import de.kheuwes.footballforwall.service.MatchService;
+import de.kheuwes.footballforwall.service.SpielstandService;
 import de.kheuwes.footballforwall.service.StatusService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class MatchController {
 
     @Autowired
     private StatusService statusService;
+
+    @Autowired
+    private SpielstandService spielstandService;
 
     @GetMapping
     public List<Match> getAllMatches() {
@@ -48,15 +52,20 @@ public class MatchController {
     @PostMapping("/read/{filename}")
     public MatchDay readMatchDay(@PathVariable String filename) {   
         matchService.readMatchDay(filename);  
+        spielstandService.createSpielstand();
+        statusService.deleteAll();
+        
         statusService.setStatusKennzeichen("S");   
         return matchService.getMatchDay();
     }
     
     @GetMapping("/matchday/short")
     public String getMatchDay() {
-        
+        String ret = "";
         MatchDay matchDay = matchService.getMatchDay();
-        String ret = String.format("%s|%s|%s", matchDay.getGegner(), matchDay.getDatum(), matchDay.getGegnerBild());
+        if(matchDay != null){
+            ret = String.format("%s|%s|%s", matchDay.getGegner(), matchDay.getDatum(), matchDay.getGegnerBild());
+        }        
         return ret;
     }
 }

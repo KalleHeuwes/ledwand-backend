@@ -3,6 +3,7 @@ package de.kheuwes.footballforwall.controller;
 import de.kheuwes.footballforwall.model.KeyValuePair;
 import de.kheuwes.footballforwall.model.Statuseintrag;
 import de.kheuwes.footballforwall.service.KeyValueService;
+import de.kheuwes.footballforwall.service.MatchService;
 import de.kheuwes.footballforwall.service.StatusService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,10 @@ import java.util.Optional;
 @RequestMapping("/status")
 public class StatusController {
     @Autowired
-    private KeyValueService keyValueService;
+    private StatusService statusService;
 
     @Autowired
-    private StatusService statusService;
+    private MatchService matchService;
 
     @GetMapping
     public List<Statuseintrag> getAllStatuseintraege() {
@@ -61,29 +62,30 @@ public class StatusController {
     }
 
     @PostMapping("/anpfiff/{hz}/{uhrzeit}")
-    public KeyValuePair setAnpfiff(@PathVariable String hz, @PathVariable String uhrzeit) {
+    public String setAnpfiff(@PathVariable String hz, @PathVariable String uhrzeit) {
         setStatusKennzeichen("A");
-        return keyValueService.saveKeyValuePair(new KeyValuePair("Anpfiff Hz " + hz, uhrzeit));
+        matchService.setAnpfiff(uhrzeit);
+        matchService.setHz(hz);
+        matchService.setNachspielzeit(0);
+        return matchService.getHz() + "|" + matchService.getAnpfiff();
     }
 
     @PostMapping("/nachspielzeit/{nachspielzeit}")
-    public KeyValuePair setNachspielzeit(@PathVariable String nachspielzeit) {
-        return keyValueService.saveKeyValuePair(new KeyValuePair("Nachspielzeit", nachspielzeit));
+    public int setNachspielzeit(@PathVariable Integer nachspielzeit) {
+        setStatusKennzeichen("A");
+        matchService.setNachspielzeit(nachspielzeit);
+        System.out.println("Setze Nachspielzeit auf: " + matchService.getNachspielzeit());
+        return matchService.getNachspielzeit();
+    }
+    
+    @GetMapping("/nachspielzeit")
+    public int getNachspielzeit() {
+        return matchService.getNachspielzeit();
     }
 
     @GetMapping("/anpfiff")
     public String getAnpfiff() {
-        String ret = "";
-        List<KeyValuePair> kvs = keyValueService.getAllKeyValuePairs();
-        for (KeyValuePair kvp : kvs) {
-            if("Anpfiff Hz 1".equalsIgnoreCase(kvp.getKeyName())){
-                ret = "{\"hz\": 1, \"uhrzeit\": \"" + kvp.getValueStr() + "\"}";
-            }            
-            if("Anpfiff Hz 2".equalsIgnoreCase(kvp.getKeyName())){
-                ret = "{\"hz\": 2, \"uhrzeit\": \"" + kvp.getValueStr() + "\"}";
-            }
-        }
-        return ret;
+        return matchService.getHz() + "|" + matchService.getAnpfiff() + "|" + matchService.getNachspielzeit();
     }
 
 }
