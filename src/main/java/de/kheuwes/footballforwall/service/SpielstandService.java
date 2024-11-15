@@ -51,4 +51,5 @@ public class SpielstandService {
     public void deleteSpielstand(Long id) {
         spielstandRepository.deleteById(id);
     }
+
 }

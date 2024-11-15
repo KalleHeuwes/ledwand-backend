@@ -61,6 +61,7 @@ public class SpielstandController {
         spielstandAlt.setGast(spielstandAlt.getGast() + gast);
         spielstandAlt.setHg(hg);
         spielstandAlt.setTsNummer(statuseintrag.getRueckennummer());
+        spielstandAlt.setSpielername(statuseintrag.getSpielername());
         statusService.saveStatuseintrag(statuseintrag);
         statusService.setStatusKennzeichen("T");
         System.out.println(statuseintrag);
