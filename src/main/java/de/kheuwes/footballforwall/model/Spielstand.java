@@ -11,17 +11,13 @@ public class Spielstand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private int heim;
-
     private int gast;
-
     private String hg;
-
     private int tsNummer;
+    private String spielername;
 
     //private String statusKz = "";
-
     // Constructors, getters, and setters
     public Spielstand() {}
 
@@ -68,25 +64,22 @@ public class Spielstand {
     public void setTsNummer(int tsNummer) {
         this.tsNummer = tsNummer;
     }
-/*
-    public String getStatusKz() {
-        return statusKz;
-    }
-
-    public void setStatusKz(String statusKz) {
-        this.statusKz = statusKz;
-    }
- */
-
 
  @Override
  public String toString() {
      return "Spielstand [id=" + id + ", heim=" + heim + ", gast=" + gast 
-     + ", hg=" + hg + ", tsNummer=" + tsNummer        + "]";
+     + ", hg=" + hg + ", tsNummer=" + tsNummer+ ", spielername=" + spielername        + "]";
  }
 
  public String shortString() {
-     return String.format("%s|%s|%s|%s", this.heim, this.gast, this.hg, this.tsNummer);
+     return String.format("%s|%s|%s|%s|%s", this.heim, this.gast, this.hg, this.tsNummer, this.spielername);
  }
     
+ public String getSpielername() {
+    return spielername;
+}
+
+public void setSpielername(String spielername) {
+    this.spielername = spielername;
+}
 }

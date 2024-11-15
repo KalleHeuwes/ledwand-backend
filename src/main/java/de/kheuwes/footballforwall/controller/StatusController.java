@@ -1,8 +1,6 @@
 package de.kheuwes.footballforwall.controller;
 
-import de.kheuwes.footballforwall.model.KeyValuePair;
 import de.kheuwes.footballforwall.model.Statuseintrag;
-import de.kheuwes.footballforwall.service.KeyValueService;
 import de.kheuwes.footballforwall.service.MatchService;
 import de.kheuwes.footballforwall.service.StatusService;
 
