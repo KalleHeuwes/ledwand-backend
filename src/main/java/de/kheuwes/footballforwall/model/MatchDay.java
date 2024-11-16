@@ -16,16 +16,41 @@ public class MatchDay {
 
     private List<Player> startelf = new ArrayList<Player>();
     private List<Player> bank = new ArrayList<Player>();
+    private List<String> spielerstatistikList = new ArrayList<String>();
+
+    public List<String> getSpielerstatistik(){
+        List<String> ret = new ArrayList<String>();
+        String filename = "";
+        String modus = "";
+        String[] items = null;
+        try {
+            filename = "C:\\temp\\statistik.csv";
+            System.out.println("Lese Statistik aus " + filename);
+            File initialFile = new File(filename);
+            InputStream is = new FileInputStream(initialFile);
+            InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(streamReader);
+            for (String line; (line = reader.readLine()) != null;) {
+                ret.add(line);                
+            }
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("An error occurred.");
+            System.err.println(e.getLocalizedMessage());
+        }
+        return ret;
+    }
 
     public MatchDay init(String inFilename){
         String filename = "/" + inFilename.replace("-", "/");
         String modus = "";
         String[] items = null;
+        Player player = null;
         System.out.println("init..." + filename);
         try {
+            spielerstatistikList = getSpielerstatistik();
             filename = "C:\\temp\\spieltag.csv";
             System.out.println("Lese Spieltag aus " + filename);
-            //InputStream is = MatchDay.class.getResourceAsStream(filename);
             File initialFile = new File(filename);
             InputStream is = new FileInputStream(initialFile);
             InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
@@ -44,10 +69,14 @@ public class MatchDay {
                         this.gegnerBild = items[2];
                     }
                     if("S".equalsIgnoreCase(modus)){
-                        this.startelf.add(new Player(items[2], items[1], Integer.parseInt( items[0]), "", ""));
+                        player = new Player(items[2], items[1], Integer.parseInt( items[0]), "", "");
+                        addStatistics(spielerstatistikList, player);
+                        this.startelf.add(player);
                     }
                     if("B".equalsIgnoreCase(modus)){
-                        this.bank.add(new Player(items[2], items[1], Integer.parseInt( items[0]), "", ""));
+                        player = new Player(items[2], items[1], Integer.parseInt( items[0]), "", "");
+                        addStatistics(spielerstatistikList, player);
+                        this.bank.add(player);
                     }
                 }
 
@@ -65,6 +94,16 @@ public class MatchDay {
             System.err.println(e.getLocalizedMessage());
         }
         return this;
+    }
+
+    private void addStatistics(List<String> stats, Player player){
+        String[] items = null;
+        for (String string : stats) {
+            items = string.split(";");
+            if(items[0].equalsIgnoreCase(player.getFirstName()) && items[1].equalsIgnoreCase(player.getName())){
+                player.setPlayerStatistics(new PlayerStatistics(Integer.parseInt(items[3]), Integer.parseInt(items[2]), Integer.parseInt(items[4]), ""));
+            }
+        }
     }
 
     public String getDatum() {

@@ -5,17 +5,18 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity
+//@Entity
 public class Player {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String firstName;
     private int number;
     private String position;
     private String imageUrl;
+    private PlayerStatistics playerStatistics = null;
 
     // Constructors, getters, and setters
     public Player() {}
@@ -75,4 +76,14 @@ public class Player {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public PlayerStatistics getPlayerStatistics() {
+        return playerStatistics;
+    }
+
+    public void setPlayerStatistics(PlayerStatistics playerStatistics) {
+        this.playerStatistics = playerStatistics;
+    }
+
+    
 }

@@ -68,4 +68,9 @@ public class MatchController {
         }        
         return ret;
     }
+        
+    @GetMapping("/matchday/long")
+    public MatchDay getMatchDayLong() {
+        return matchService.getMatchDay();
+    }
 }

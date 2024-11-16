@@ -14,8 +14,8 @@ public class Team {
     private String manager;
     private String imageUrl;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Player> players;
+    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<Player> players;
 
     // Constructors, getters, and setters
     public Team() {}
@@ -67,6 +67,7 @@ public class Team {
         this.imageUrl = imageUrl;
     }
 
+    /*
     public List<Player> getPlayers() {
         return players;
     }
@@ -74,4 +75,6 @@ public class Team {
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
+     */
+
 }
