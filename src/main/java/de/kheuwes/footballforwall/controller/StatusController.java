@@ -37,6 +37,12 @@ public class StatusController {
         return statusService.getStatusKennzeichen();
     }
 
+    @PostMapping("/setstatus/{statusKz}")
+    public String setstatus(@PathVariable String statusKz) {
+        setStatusKennzeichen(statusKz);
+        return statusService.getStatusKennzeichen();
+    }
+
     private void setStatusKennzeichen(String statusKz){
         statusService.setStatusKennzeichen(statusKz);
         System.out.println("Statuskennzeichen gesetzt auf: " + statusKz);

@@ -13,6 +13,7 @@ public class MatchDay {
     private String datum = "";
     private String gegner = "";
     private String gegnerBild = "";
+    private String bildPattern = "";
 
     private List<Player> startelf = new ArrayList<Player>();
     private List<Player> bank = new ArrayList<Player>();
@@ -68,13 +69,18 @@ public class MatchDay {
                     if("Bild".equalsIgnoreCase(items[1])){
                         this.gegnerBild = items[2];
                     }
+                    if("BildPattern".equalsIgnoreCase(items[1])){
+                        this.bildPattern = items[2];
+                    }
                     if("S".equalsIgnoreCase(modus)){
-                        player = new Player(items[2], items[1], Integer.parseInt( items[0]), "", "");
+                        player = new Player(items[2], items[1], Integer.parseInt( items[0]), "", 
+                            this.bildPattern.replace("<VN>", items[1]).replace("<NN>", items[2]));
                         addStatistics(spielerstatistikList, player);
                         this.startelf.add(player);
                     }
                     if("B".equalsIgnoreCase(modus)){
-                        player = new Player(items[2], items[1], Integer.parseInt( items[0]), "", "");
+                        player = new Player(items[2], items[1], Integer.parseInt( items[0]), "", 
+                            this.bildPattern.replace("<VN>", items[1]).replace("<NN>", items[2]));
                         addStatistics(spielerstatistikList, player);
                         this.bank.add(player);
                     }
@@ -145,4 +151,14 @@ public class MatchDay {
     public void setBank(List<Player> bank) {
         this.bank = bank;
     }
+
+    public String getBildPattern() {
+        return bildPattern;
+    }
+
+    public void setBildPattern(String bildPattern) {
+        this.bildPattern = bildPattern;
+    }
+
+    
 }
