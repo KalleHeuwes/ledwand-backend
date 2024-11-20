@@ -40,6 +40,17 @@ public class StatusController {
     @PostMapping("/setstatus/{statusKz}")
     public String setstatus(@PathVariable String statusKz) {
         setStatusKennzeichen(statusKz);
+        if(matchService.getMatchDay() != null){
+            if("Y0".equalsIgnoreCase(statusKz) || "Y1".equalsIgnoreCase(statusKz)){
+                matchService.getMatchDay().setAufstellungNr(0);
+            }
+            if("YN".equalsIgnoreCase(statusKz)){
+                int nr = matchService.getMatchDay().getAufstellungNr();
+                matchService.getMatchDay().setAufstellungNr(nr + 1);
+                return String.valueOf(nr);
+            }        
+        }
+
         return statusService.getStatusKennzeichen();
     }
 

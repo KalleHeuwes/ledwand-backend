@@ -73,4 +73,13 @@ public class MatchController {
     public MatchDay getMatchDayLong() {
         return matchService.getMatchDay();
     }
+        
+    @GetMapping("/aufstellung/naechster")
+    public String getAufstellungNaechster() {
+        if(matchService.getMatchDay() == null){
+            return "-";
+        }
+        int nr = matchService.getMatchDay().getAufstellungNr();
+        return String.valueOf(nr);    
+    }
 }

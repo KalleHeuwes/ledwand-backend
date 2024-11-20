@@ -12,8 +12,10 @@ import java.util.List;
 public class MatchDay {
     private String datum = "";
     private String gegner = "";
+    private String trainer = "Daniel Apke";
     private String gegnerBild = "";
     private String bildPattern = "";
+    private int aufstellungNr = 0;
 
     private List<Player> startelf = new ArrayList<Player>();
     private List<Player> bank = new ArrayList<Player>();
@@ -71,6 +73,9 @@ public class MatchDay {
                     }
                     if("BildPattern".equalsIgnoreCase(items[1])){
                         this.bildPattern = items[2];
+                    }                    
+                    if("Trainer".equalsIgnoreCase(items[1])){
+                        this.trainer = items[2];
                     }
                     if("S".equalsIgnoreCase(modus)){
                         player = new Player(items[2], items[1], Integer.parseInt( items[0]), "", 
@@ -158,6 +163,22 @@ public class MatchDay {
 
     public void setBildPattern(String bildPattern) {
         this.bildPattern = bildPattern;
+    }
+
+    public int getAufstellungNr() {
+        return aufstellungNr;
+    }
+
+    public void setAufstellungNr(int aufstellungNr) {
+        this.aufstellungNr = aufstellungNr;
+    }
+
+    public String getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(String trainer) {
+        this.trainer = trainer;
     }
 
     
