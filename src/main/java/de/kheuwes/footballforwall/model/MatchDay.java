@@ -15,7 +15,7 @@ public class MatchDay {
     private String trainer = "Daniel Apke";
     private String gegnerBild = "";
     private String bildPattern = "";
-    private int aufstellungNr = 0;
+    private int aufstellungNr = -1;
 
     private List<Player> startelf = new ArrayList<Player>();
     private List<Player> bank = new ArrayList<Player>();
