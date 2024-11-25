@@ -2,6 +2,7 @@ package de.kheuwes.footballforwall.service;
 
 import de.kheuwes.footballforwall.model.Match;
 import de.kheuwes.footballforwall.model.MatchDay;
+import de.kheuwes.footballforwall.model.Player;
 import de.kheuwes.footballforwall.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,10 @@ public class MatchService {
         setHz("");
         setNachspielzeit(0);
         return this.matchDay;
+    }
+
+    public Player getSpieler(int nr){
+        return this.matchDay.getSpieler(nr);
     }
 
     public MatchDay getMatchDay() {

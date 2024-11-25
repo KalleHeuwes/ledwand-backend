@@ -24,8 +24,6 @@ public class MatchDay {
     public List<String> getSpielerstatistik(){
         List<String> ret = new ArrayList<String>();
         String filename = "";
-        String modus = "";
-        String[] items = null;
         try {
             filename = "C:\\temp\\statistik.csv";
             System.out.println("Lese Statistik aus " + filename);
@@ -42,6 +40,20 @@ public class MatchDay {
             System.err.println(e.getLocalizedMessage());
         }
         return ret;
+    }
+
+    public Player getSpieler(int nr){
+        for (Player player : startelf) {
+            if(player.getNumber() == nr){
+                return player;
+            }
+        }
+        for (Player player : bank) {
+            if(player.getNumber() == nr){
+                return player;
+            }
+        }
+        return null;
     }
 
     public MatchDay init(String inFilename){

@@ -1,7 +1,6 @@
 package de.kheuwes.footballforwall.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 public class Team {
@@ -13,9 +12,6 @@ public class Team {
     private String shortName;
     private String manager;
     private String imageUrl;
-
-    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Player> players;
 
     // Constructors, getters, and setters
     public Team() {}

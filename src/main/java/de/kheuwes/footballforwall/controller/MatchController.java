@@ -2,6 +2,7 @@ package de.kheuwes.footballforwall.controller;
 
 import de.kheuwes.footballforwall.model.Match;
 import de.kheuwes.footballforwall.model.MatchDay;
+import de.kheuwes.footballforwall.model.Player;
 import de.kheuwes.footballforwall.service.MatchService;
 import de.kheuwes.footballforwall.service.SpielstandService;
 import de.kheuwes.footballforwall.service.StatusService;
@@ -72,6 +73,11 @@ public class MatchController {
     @GetMapping("/matchday/long")
     public MatchDay getMatchDayLong() {
         return matchService.getMatchDay();
+    }     
+
+    @GetMapping("/matchday/spieler/{nr}")
+    public Player getSpieler(@PathVariable int nr) {
+        return matchService.getSpieler(nr);
     }
         
     @GetMapping("/aufstellung/naechster")
