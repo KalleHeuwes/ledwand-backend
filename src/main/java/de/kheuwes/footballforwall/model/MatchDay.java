@@ -15,6 +15,7 @@ public class MatchDay {
     private String trainer = "Daniel Apke";
     private String gegnerBild = "";
     private String bildPattern = "";
+    private String design = "default";
     private int aufstellungNr = -1;
 
     private List<Player> startelf = new ArrayList<Player>();
@@ -191,6 +192,14 @@ public class MatchDay {
 
     public void setTrainer(String trainer) {
         this.trainer = trainer;
+    }
+
+    public String getDesign() {
+        return design;
+    }
+
+    public void setDesign(String design) {
+        this.design = design;
     }
 
     

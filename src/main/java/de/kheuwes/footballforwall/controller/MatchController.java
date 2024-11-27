@@ -79,7 +79,17 @@ public class MatchController {
     public Player getSpieler(@PathVariable int nr) {
         return matchService.getSpieler(nr);
     }
-        
+    
+    @PostMapping("/matchday/design/{design}")
+    public String setDesign(@PathVariable String design) {   
+        matchService.getMatchDay().setDesign(design);
+        return matchService.getMatchDay().getDesign();
+    }    
+    
+    @GetMapping("/matchday/design")
+    public String getDesign() {   
+        return matchService.getMatchDay().getDesign();
+    }  
     @GetMapping("/aufstellung/naechster")
     public String getAufstellungNaechster() {
         if(matchService.getMatchDay() == null){
