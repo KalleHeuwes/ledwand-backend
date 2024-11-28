@@ -87,7 +87,10 @@ public class MatchController {
     }    
     
     @GetMapping("/matchday/design")
-    public String getDesign() {   
+    public String getDesign() {
+        if(matchService.getMatchDay() == null){
+            return "default";
+        }
         return matchService.getMatchDay().getDesign();
     }  
     @GetMapping("/aufstellung/naechster")
