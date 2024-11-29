@@ -92,7 +92,13 @@ public class StatusController {
         System.out.println("Setze Nachspielzeit auf: " + matchService.getNachspielzeit());
         return matchService.getNachspielzeit();
     }
-    
+ 
+    @PostMapping("/halbzeit")
+    public String setHalbzeit() {
+        setStatusKennzeichen("H");
+        return getStatusKennzeichen();
+    }
+
     @GetMapping("/nachspielzeit")
     public int getNachspielzeit() {
         return matchService.getNachspielzeit();
