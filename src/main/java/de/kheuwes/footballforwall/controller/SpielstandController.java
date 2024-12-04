@@ -2,15 +2,12 @@ package de.kheuwes.footballforwall.controller;
 
 import de.kheuwes.footballforwall.model.Spielstand;
 import de.kheuwes.footballforwall.model.Statuseintrag;
-import de.kheuwes.footballforwall.service.SpielstandService;
+import de.kheuwes.footballforwall.service.MatchService;
 import de.kheuwes.footballforwall.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -18,26 +15,15 @@ import java.util.Optional;
 public class SpielstandController {
 
     @Autowired
-    private SpielstandService spielstandService;
-
-    @Autowired
     private StatusService statusService;
 
-    @GetMapping
-    public List<Spielstand> getAllMatches() {
-        return spielstandService.getAllSpielstands();
-    }
+    @Autowired
+    private MatchService matchService;
 
     @GetMapping("/string")
     public String getSpielstandAsString() {
-        Spielstand stand = spielstandService.getSpielstand();
+        Spielstand stand = matchService.getSpielstand();
         return stand.shortString();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Spielstand> getSpielstandById(@PathVariable Long id) {
-        Optional<Spielstand> match = spielstandService.getSpielstandById(id);
-        return match.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/laufschrift")
@@ -56,22 +42,17 @@ public class SpielstandController {
     }
 
     private Spielstand torVerbuchen(Statuseintrag statuseintrag, int heim,int gast, String hg){
-        Spielstand spielstandAlt = spielstandService.getSpielstand();
-        spielstandAlt.setHeim(spielstandAlt.getHeim() + heim);
-        spielstandAlt.setGast(spielstandAlt.getGast() + gast);
-        spielstandAlt.setHg(hg);
-        spielstandAlt.setTsNummer(statuseintrag.getRueckennummer());
-        spielstandAlt.setSpielername(statuseintrag.getSpielername());
+        Spielstand spielstand = matchService.getSpielstand();
+        spielstand.setHeim(spielstand.getHeim() + heim);
+        spielstand.setGast(spielstand.getGast() + gast);
+        spielstand.setHg(hg);
+        spielstand.setTsNummer(statuseintrag.getRueckennummer());
+        spielstand.setSpielername(statuseintrag.getSpielername());
         statusService.saveStatuseintrag(statuseintrag);
         statusService.setStatusKennzeichen("T");
         System.out.println(statuseintrag);
-        System.out.println(spielstandAlt);
-        return spielstandService.saveSpielstand(spielstandAlt);
-    }
-
-    @PostMapping
-    public Spielstand createSpielstand(@RequestBody Spielstand spielstand) {
-        return spielstandService.saveSpielstand(spielstand);
+        System.out.println(spielstand);
+        return spielstand;
     }
 
     @PatchMapping
@@ -84,12 +65,6 @@ public class SpielstandController {
             // clipUtils.playSoundfiles();
         }
         System.out.println(spielstand);
-        return spielstandService.saveSpielstand(spielstand);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMatch(@PathVariable Long id) {
-        spielstandService.deleteSpielstand(id);
-        return ResponseEntity.ok().build();
+        return spielstand;
     }
 }

@@ -1,16 +1,8 @@
 package de.kheuwes.footballforwall.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class Spielstand {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    //private Long id;
     private int heim;
     private int gast;
     private String hg;
@@ -67,7 +59,7 @@ public class Spielstand {
 
  @Override
  public String toString() {
-     return "Spielstand [id=" + id + ", heim=" + heim + ", gast=" + gast 
+     return "Spielstand [id=" + 0 + ", heim=" + heim + ", gast=" + gast 
      + ", hg=" + hg + ", tsNummer=" + tsNummer+ ", spielername=" + spielername        + "]";
  }
 

@@ -1,18 +1,15 @@
 package de.kheuwes.footballforwall.controller;
 
-import de.kheuwes.footballforwall.model.Match;
 import de.kheuwes.footballforwall.model.MatchDay;
 import de.kheuwes.footballforwall.model.Player;
+import de.kheuwes.footballforwall.model.Spielstand;
 import de.kheuwes.footballforwall.service.MatchService;
-import de.kheuwes.footballforwall.service.SpielstandService;
 import de.kheuwes.footballforwall.service.StatusService;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -25,35 +22,10 @@ public class MatchController {
     @Autowired
     private StatusService statusService;
 
-    @Autowired
-    private SpielstandService spielstandService;
-
-    @GetMapping
-    public List<Match> getAllMatches() {
-        return matchService.getAllMatches();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Match> getMatchById(@PathVariable Long id) {
-        Optional<Match> match = matchService.getMatchById(id);
-        return match.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Match createMatch(@RequestBody Match match) {
-        return matchService.saveMatch(match);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMatch(@PathVariable Long id) {
-        matchService.deleteMatch(id);
-        return ResponseEntity.ok().build();
-    }
-    
     @PostMapping("/read/{filename}")
     public MatchDay readMatchDay(@PathVariable String filename) {   
         matchService.readMatchDay(filename);  
-        spielstandService.createSpielstand();
+        matchService.setSpielstand(new Spielstand(0, 0));
         statusService.deleteAll();
         
         statusService.setStatusKennzeichen("S");   
@@ -73,6 +45,11 @@ public class MatchController {
     @GetMapping("/matchday/long")
     public MatchDay getMatchDayLong() {
         return matchService.getMatchDay();
+    }     
+        
+    @GetMapping("/matchday/halbzeit-config")
+    public List<String> getHalbzeitConfig() {
+        return matchService.getMatchDay().getHalbzeitConfig();
     }     
 
     @GetMapping("/matchday/spieler/{nr}")

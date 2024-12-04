@@ -21,6 +21,28 @@ public class MatchDay {
     private List<Player> startelf = new ArrayList<Player>();
     private List<Player> bank = new ArrayList<Player>();
     private List<String> spielerstatistikList = new ArrayList<String>();
+    private List<String> halbzeitConfig = new ArrayList<String>();
+
+    public List<String> readHalbzeitConfig(){
+        List<String> ret = new ArrayList<String>();
+        String filename = "";
+        try {
+            filename = "C:\\temp\\halbzeit.csv";
+            System.out.println("Lese Halbzeit-Config aus " + filename);
+            File initialFile = new File(filename);
+            InputStream is = new FileInputStream(initialFile);
+            InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(streamReader);
+            for (String line; (line = reader.readLine()) != null;) {
+                ret.add(line);                
+            }
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("An error occurred.");
+            System.err.println(e.getLocalizedMessage());
+        }
+        return ret;
+    }
 
     public List<String> getSpielerstatistik(){
         List<String> ret = new ArrayList<String>();
@@ -64,7 +86,8 @@ public class MatchDay {
         Player player = null;
         System.out.println("init..." + filename);
         try {
-            spielerstatistikList = getSpielerstatistik();
+            this.spielerstatistikList = getSpielerstatistik();
+            this.halbzeitConfig = readHalbzeitConfig();
             filename = "C:\\temp\\spieltag.csv";
             System.out.println("Lese Spieltag aus " + filename);
             File initialFile = new File(filename);
@@ -112,11 +135,12 @@ public class MatchDay {
                 }
             }
             reader.close();
-            System.out.println(String.format("Spiel am %s gegen %s, Bild %s", datum, gegner, gegnerBild));
+            
         } catch (Exception e) {
             System.out.println("An error occurred.");
             System.err.println(e.getLocalizedMessage());
         }
+        System.out.println(String.format("Spiel am %s gegen %s, Bild %s", this.datum, this.gegner, this.gegnerBild));
         return this;
     }
 
@@ -200,6 +224,10 @@ public class MatchDay {
 
     public void setDesign(String design) {
         this.design = design;
+    }
+
+    public List<String> getHalbzeitConfig() {
+        return halbzeitConfig;
     }
 
     
