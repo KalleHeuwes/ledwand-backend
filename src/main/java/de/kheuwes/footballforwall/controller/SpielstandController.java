@@ -26,6 +26,11 @@ public class SpielstandController {
         return stand.shortString();
     }
 
+    @GetMapping
+    public Spielstand getSpielstand() {
+        return matchService.getSpielstand();
+    }
+
     @GetMapping("/laufschrift")
     public String getLaufschrift() {
         return statusService.getLaufschrift();
