@@ -1,0 +1,8 @@
+2025-10-05 07:01:12.507809+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabelle "ABSCHLUSSTABELLENEINTRAG" nicht gefunden (diese Datenbank ist leer)
+Table "ABSCHLUSSTABELLENEINTRAG" not found (this database is empty); SQL statement:
+insert into abschlusstabelleneintrag (diff,g,liga,mannschaft,platz,punkte,quelle,saison,spiele,tore,u,v,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [42104-224]
+2025-10-05 07:02:53.737864+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabelle "ABSCHLUSSTABELLENEINTRAG" nicht gefunden (diese Datenbank ist leer)
+Table "ABSCHLUSSTABELLENEINTRAG" not found (this database is empty); SQL statement:
+insert into abschlusstabelleneintrag (diff,g,liga,mannschaft,platz,punkte,quelle,saison,spiele,tore,u,v,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [42104-224]
