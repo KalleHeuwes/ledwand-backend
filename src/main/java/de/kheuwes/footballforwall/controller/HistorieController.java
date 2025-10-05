@@ -43,7 +43,7 @@ public class HistorieController {
     @PostMapping("/historie/import")
     public ResponseEntity<String> startCsvImport() {
         try {
-            int count = datenimportService.importData();
+            int count = datenimportService.importAllData();
             
             if (count > 0) {
                 // Erfolgreiche Antwort (200 OK)
