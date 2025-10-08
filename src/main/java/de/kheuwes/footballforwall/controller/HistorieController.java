@@ -10,16 +10,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.kheuwes.footballforwall.repository.AbschlusstabellenRepository;
+import de.kheuwes.footballforwall.model.historie.Abschlusstabelleneintrag;
+import de.kheuwes.footballforwall.model.historie.Spieltage;
+import de.kheuwes.footballforwall.repository.historie.AbschlusstabellenRepository;
+import de.kheuwes.footballforwall.repository.historie.SpieltageRepository;
 import de.kheuwes.footballforwall.service.DatenimportService;
-import de.kheuwes.footballforwall.model.Abschlusstabelleneintrag;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class HistorieController {
     @Autowired
-    private AbschlusstabellenRepository repository; // Ihr JPA Repository
+    private AbschlusstabellenRepository repoAbschlusstabellen; 
 
+    @Autowired
+    private SpieltageRepository repoSpieltage; 
     private final DatenimportService datenimportService;
 
     // Injektion des neuen Service
@@ -30,7 +34,13 @@ public class HistorieController {
     @GetMapping("/historie/abschlusstabelle/{saison}")
     public List<Abschlusstabelleneintrag> getBySaison(@PathVariable String saison) {
         String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
-        return repository.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
+        return repoAbschlusstabellen.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
+    }
+
+    @GetMapping("/historie/spieltage/{saison}")
+    public List<Spieltage> getSpieltageBySaison(@PathVariable String saison) {
+        String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
+        return repoSpieltage.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
     }
 
     @GetMapping("/historie")

@@ -1,4 +1,4 @@
-package de.kheuwes.footballforwall.model;
+package de.kheuwes.footballforwall.model.historie;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

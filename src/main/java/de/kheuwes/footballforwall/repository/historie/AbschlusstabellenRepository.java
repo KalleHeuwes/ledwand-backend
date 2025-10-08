@@ -1,8 +1,9 @@
-package de.kheuwes.footballforwall.repository;
+package de.kheuwes.footballforwall.repository.historie;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import de.kheuwes.footballforwall.model.Abschlusstabelleneintrag;
+
+import de.kheuwes.footballforwall.model.historie.Abschlusstabelleneintrag;
 
 // Erbt alle Standard-DB-Methoden (save, findById, findAll, etc.)
 public interface AbschlusstabellenRepository extends JpaRepository<Abschlusstabelleneintrag, Long> {

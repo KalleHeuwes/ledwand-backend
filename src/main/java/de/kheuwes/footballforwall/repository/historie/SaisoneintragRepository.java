@@ -1,9 +1,9 @@
-package de.kheuwes.footballforwall.repository;
+package de.kheuwes.footballforwall.repository.historie;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import de.kheuwes.footballforwall.model.Saisoneintrag;
+import de.kheuwes.footballforwall.model.historie.Saisoneintrag;
 
 /**
  * Repository-Interface für die Saisoneintrag Entität.
