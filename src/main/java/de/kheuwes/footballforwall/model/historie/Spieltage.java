@@ -1,7 +1,6 @@
 package de.kheuwes.footballforwall.model.historie;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "spieltage")

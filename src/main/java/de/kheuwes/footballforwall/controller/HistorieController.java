@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.kheuwes.footballforwall.model.historie.Abschlusstabelleneintrag;
+import de.kheuwes.footballforwall.model.historie.Saisoneintrag;
 import de.kheuwes.footballforwall.model.historie.Spieltage;
 import de.kheuwes.footballforwall.repository.historie.AbschlusstabellenRepository;
+import de.kheuwes.footballforwall.repository.historie.SaisoneintragRepository;
 import de.kheuwes.footballforwall.repository.historie.SpieltageRepository;
 import de.kheuwes.footballforwall.service.DatenimportService;
 
@@ -24,6 +26,10 @@ public class HistorieController {
 
     @Autowired
     private SpieltageRepository repoSpieltage; 
+
+    @Autowired
+    private SaisoneintragRepository repoSaisons;
+
     private final DatenimportService datenimportService;
 
     // Injektion des neuen Service
@@ -41,6 +47,11 @@ public class HistorieController {
     public List<Spieltage> getSpieltageBySaison(@PathVariable String saison) {
         String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
         return repoSpieltage.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
+    }
+
+    @GetMapping("/historie/saisons")
+    public List<Saisoneintrag> getSaisons() {
+        return repoSaisons.findAll();
     }
 
     @GetMapping("/historie")
