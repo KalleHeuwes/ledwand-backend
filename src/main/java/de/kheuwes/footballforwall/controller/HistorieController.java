@@ -37,24 +37,24 @@ public class HistorieController {
         this.datenimportService = datenimportService;
     }
 
-    @GetMapping("/historie/abschlusstabelle/{saison}")
+    @GetMapping("/api/historie/abschlusstabelle/{saison}")
     public List<Abschlusstabelleneintrag> getBySaison(@PathVariable String saison) {
         String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
         return repoAbschlusstabellen.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
     }
 
-    @GetMapping("/historie/spieltage/{saison}")
+    @GetMapping("/api/historie/spieltage/{saison}")
     public List<Spieltage> getSpieltageBySaison(@PathVariable String saison) {
         String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
         return repoSpieltage.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
     }
 
-    @GetMapping("/historie/saisons")
+    @GetMapping("/api/historie/saisons")
     public List<Saisoneintrag> getSaisons() {
         return repoSaisons.findAll();
     }
 
-    @GetMapping("/historie")
+    @GetMapping("/api/historie")
     public String getHistorie() {
         return "Dummy"; 
     }
