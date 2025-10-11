@@ -175,6 +175,6 @@ public class DatenimportService {
     private BufferedReader getReaderForCsv(String csvFile) throws Exception {
         return new BufferedReader(
                 new InputStreamReader( new ClassPathResource(csvFile).getInputStream(),
-                        StandardCharsets.UTF_8));
+                        StandardCharsets.ISO_8859_1));
     }
 }
