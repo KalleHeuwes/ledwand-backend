@@ -49,6 +49,12 @@ public class HistorieController {
         return repoSpieltage.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
     }
 
+    @GetMapping("/api/historie/spieltage/reset")
+    public String getSpieltageReset() {   
+        repoSpieltage.deleteAll();     
+        return "OK";    
+    }
+
     @GetMapping("/api/historie/saisons")
     public List<Saisoneintrag> getSaisons() {
         return repoSaisons.findAll();
@@ -58,7 +64,6 @@ public class HistorieController {
     public String getHistorie() {
         return "Dummy"; 
     }
-
 
     // Endpunkt zum expliziten Start des Datenimports
     @PostMapping("/historie/import")
