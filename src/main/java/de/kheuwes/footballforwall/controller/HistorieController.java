@@ -8,13 +8,16 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.kheuwes.footballforwall.model.historie.Abschlusstabelleneintrag;
 import de.kheuwes.footballforwall.model.historie.Saisoneintrag;
+import de.kheuwes.footballforwall.model.historie.SpielerEinsatz;
 import de.kheuwes.footballforwall.model.historie.Spieltage;
 import de.kheuwes.footballforwall.repository.historie.AbschlusstabellenRepository;
 import de.kheuwes.footballforwall.repository.historie.SaisoneintragRepository;
+import de.kheuwes.footballforwall.repository.historie.SpielerEinsatzRepository;
 import de.kheuwes.footballforwall.repository.historie.SpieltageRepository;
 import de.kheuwes.footballforwall.service.DatenimportService;
 
@@ -29,6 +32,9 @@ public class HistorieController {
 
     @Autowired
     private SaisoneintragRepository repoSaisons;
+
+    @Autowired
+    private SpielerEinsatzRepository repoSpielerEinsatz;
 
     private final DatenimportService datenimportService;
 
@@ -47,6 +53,12 @@ public class HistorieController {
     public List<Spieltage> getSpieltageBySaison(@PathVariable String saison) {
         String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
         return repoSpieltage.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
+    }
+
+    @GetMapping("/api/historie/spieltagskader")
+    public List<SpielerEinsatz> getSpieltagskaderList(@RequestParam String saison, @RequestParam Long spiel) {
+        String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
+        return repoSpielerEinsatz.findBySaisonAndSpielnummer(saisonCalc, spiel);
     }
 
     @GetMapping("/api/historie/spieltage/reset")
