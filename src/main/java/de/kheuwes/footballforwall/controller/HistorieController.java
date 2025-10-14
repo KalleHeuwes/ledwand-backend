@@ -58,7 +58,7 @@ public class HistorieController {
     @GetMapping("/api/historie/spieltagskader")
     public List<SpielerEinsatz> getSpieltagskaderList(@RequestParam String saison, @RequestParam Long spiel) {
         String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
-        return repoSpielerEinsatz.findBySaisonAndSpielnummer(saisonCalc, spiel);
+        return repoSpielerEinsatz.findBySaisonAndSpiel(saisonCalc, spiel);
     }
 
     @GetMapping("/api/historie/spieltage/reset")

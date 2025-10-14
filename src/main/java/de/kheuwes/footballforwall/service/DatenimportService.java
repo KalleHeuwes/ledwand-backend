@@ -41,7 +41,7 @@ public class DatenimportService {
         try {
             anz+=importCsv("historie/abschlusstabellen.csv",  12, repoTabelle, this::createTabelleEntry );
             anz+=importCsv("historie/saisons.csv",  10, repoSaison, this::createSaisonEntry );
-            anz+=importCsv("historie/kader.csv",  36, repoSpielerEinsatz, this::createSpielerEinsatzEntry );
+            anz+=importCsv("historie/kader.csv",  6, repoSpielerEinsatz, this::createSpielerEinsatzEntry );
             anz+=importCsv("historie/spieltage.csv",  10, repoSpieltage, this::createSpieltageEntry );
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,12 +108,11 @@ public class DatenimportService {
         // Die Spalten sind: Saison(0);Nachname(1);Vorname(2);1(3);2(4);...;34(35)
         SpielerEinsatz einsatz = new SpielerEinsatz();
         einsatz.setSaison(values[0].trim());
-        einsatz.setNachname(values[1].trim());
-        einsatz.setVorname(values[2].trim());
-
-        for (int i = 3; i <= 35; i++) {
-            einsatz.setSpiel(i - 2, values[i].trim());
-        }
+        einsatz.setSpiel(safeParseInt.apply(values[1].trim()));
+        einsatz.setNachname(values[2].trim());
+        einsatz.setVorname(values[3].trim());
+        einsatz.setEinsatz(values[4].trim());
+        einsatz.setGruppe(values[5].trim());
 
         return einsatz;
     }

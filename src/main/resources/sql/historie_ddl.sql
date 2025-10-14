@@ -3,7 +3,7 @@
 -- View zum Einsatz der Spieler in den Spielen
 -- Enthält die Gruppierung in Startelf, Bank und Kader
 CREATE OR REPLACE VIEW SPIELER_EINSATZ_VW AS 
-SELECT s.saison, e.spielnummer, s.nachname, s.vorname , e.wert
+SELECT s.saison, e.spielnummer, s.nachname, s.vorname , e.wert AS einsatz
 ,   CASE
         WHEN Left(wert, 1)  = '1'       THEN '01_Startelf'
         WHEN wert           = 'Voll'    THEN '01_Startelf'
