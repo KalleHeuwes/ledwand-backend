@@ -3,14 +3,13 @@ package de.kheuwes.footballforwall.repository.historie;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 
 import de.kheuwes.footballforwall.model.historie.SpielerEinsatz;
 
 public interface SpielerEinsatzRepository extends JpaRepository<SpielerEinsatz, Long> {
     List<SpielerEinsatz> findBySaison(String saison);
 
-    List<SpielerEinsatz> findBySaisonAndSpiel(@Param("saison") String saison, @Param("spiel") Long spiel);
+    List<SpielerEinsatz> findBySaisonAndSpiel(String saison, Long spiel);
 
     List<SpielerEinsatz> findByNachnameAndVorname(String nachname, String vorname);
 

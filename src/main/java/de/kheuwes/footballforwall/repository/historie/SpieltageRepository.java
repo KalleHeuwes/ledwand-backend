@@ -15,4 +15,6 @@ public interface SpieltageRepository extends JpaRepository<Spieltage, Long> {
     List<Spieltage> findByGegnerContainingIgnoreCase(String gegner);
 
     List<Spieltage> findByPlatz(int platz);
+
+    Spieltage findBySaisonAndSpieltag(String saisonCalc, Long spieltag);
 }

@@ -38,6 +38,10 @@ public class HistorieController {
 
     private final DatenimportService datenimportService;
 
+    private String getSaison(String saison) {
+        return saison.substring(0, 4) + "/" + saison.substring(4, 6);
+    }   
+
     // Injektion des neuen Service
     public HistorieController(DatenimportService datenimportService) {
         this.datenimportService = datenimportService;
@@ -45,20 +49,22 @@ public class HistorieController {
 
     @GetMapping("/api/historie/abschlusstabelle/{saison}")
     public List<Abschlusstabelleneintrag> getBySaison(@PathVariable String saison) {
-        String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
-        return repoAbschlusstabellen.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
+        return repoAbschlusstabellen.findBySaison(getSaison(saison)); // Findet alle Einträge für die Saison
     }
 
     @GetMapping("/api/historie/spieltage/{saison}")
     public List<Spieltage> getSpieltageBySaison(@PathVariable String saison) {
-        String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
-        return repoSpieltage.findBySaison(saisonCalc); // Findet alle Einträge für die Saison
+        return repoSpieltage.findBySaison(getSaison(saison)); // Findet alle Einträge für die Saison
+    }
+
+    @GetMapping("/api/historie/spieltag")
+    public Spieltage getSpieltagBySaisonAndSpieltag(@RequestParam String saison, @RequestParam Long spieltag) {
+        return repoSpieltage.findBySaisonAndSpieltag(getSaison(saison), spieltag);
     }
 
     @GetMapping("/api/historie/spieltagskader")
     public List<SpielerEinsatz> getSpieltagskaderList(@RequestParam String saison, @RequestParam Long spiel) {
-        String saisonCalc = saison.substring(0, 4) + "/" + saison.substring(4, 6);
-        return repoSpielerEinsatz.findBySaisonAndSpiel(saisonCalc, spiel);
+        return repoSpielerEinsatz.findBySaisonAndSpiel(getSaison(saison), spiel);
     }
 
     @GetMapping("/api/historie/spieltage/reset")
