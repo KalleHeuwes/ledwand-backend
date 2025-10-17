@@ -30,7 +30,7 @@ public class Spieltage {
     @Column(length = 1000)
     private String geschossen; // z. B. "83|Marius Schomaker;69|Jonas Schomaker"
 
-    private int kassiert;
+    private String kassiert;
 
     // --- Getter & Setter ---
 
@@ -114,11 +114,11 @@ public class Spieltage {
         this.geschossen = geschossen;
     }
 
-    public int getKassiert() {
+    public String getKassiert() {
         return kassiert;
     }
 
-    public void setKassiert(int kassiert) {
+    public void setKassiert(String kassiert) {
         this.kassiert = kassiert;
     }
 

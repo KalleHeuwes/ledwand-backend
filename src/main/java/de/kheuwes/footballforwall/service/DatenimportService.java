@@ -133,7 +133,7 @@ public class DatenimportService {
         spieltag.setPunkte(safeParseInt.apply(values[6]));
         spieltag.setPlatz(safeParseInt.apply(values[7]));
         spieltag.setGeschossen(values[8].trim());
-        spieltag.setKassiert(safeParseInt.apply(values[9]));
+        spieltag.setKassiert(values[9]);
         return spieltag;
     }
 
