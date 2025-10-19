@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import de.kheuwes.footballforwall.configuration.ExternalServiceProperties;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -18,8 +20,14 @@ import java.nio.file.Paths;
 public class FileDownloadController {
 
     // Basisverzeichnis, in dem Ihre Dateien gespeichert sind (z.B. /srv/data/files)
-    private final Path fileStorageLocation = Paths.get("V:\\05").toAbsolutePath().normalize();
+    private Path fileStorageLocation = Paths.get("V:\\05").toAbsolutePath().normalize();
 
+    private final ExternalServiceProperties properties;
+
+    public FileDownloadController(ExternalServiceProperties properties) {
+        this.properties = properties;
+        this.fileStorageLocation = Paths.get(this.properties.getDocumentsRootPath()).toAbsolutePath().normalize();
+    }
     @GetMapping("/download")
     public ResponseEntity<Resource> downloadFile(@RequestParam String filePath) {
         try {

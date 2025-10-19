@@ -11,7 +11,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import de.kheuwes.footballforwall.model.historie.FileItem;
+
 public class FolderLister {
+    public static String DOCS_ROOT_PATH = ""; // Beispielpfad, anpassen nach Bedarf
 
     public static List<Path> getDirectSubfolders(String startPathString) {
         Path startPath = Paths.get(startPathString);
@@ -29,7 +32,7 @@ public class FolderLister {
         }
     }
 
-    public static List<Path> getDocsForSaisonAndSpieltag(String typ, String startPathString, String saison, String spieltag ) {
+    public static List<FileItem> getDocsForSaisonAndSpieltag(String typ, String startPathString, String saison, String spieltag ) {
         String saisontmp = saison.replace("/", "");
         if(saisontmp.length() > 4) {
             saisontmp = saisontmp.substring(2, 6);
@@ -51,11 +54,36 @@ public class FolderLister {
                         return matcher.matches();
                     })
                     .sorted(Comparator.comparing(Path::getFileName))
+                    .map(FolderLister::createFileItemFromPath)
                     .collect(Collectors.toList());
                     
         } catch (IOException e) {
             e.printStackTrace();
             return List.of(); // Leere Liste im Fehlerfall
         }
+    }
+
+    private static FileItem createFileItemFromPath(Path path) {
+        String fileName = path.getFileName() != null ? path.getFileName().toString() : "";
+        String filePath = path.toAbsolutePath().toString().replace(DOCS_ROOT_PATH, ".\\");
+        String typ;
+        System.out.println("path.toAbsolutePath().toString(): " + path.toAbsolutePath().toString());
+        System.out.println("DOCS_ROOT_PATH: " + DOCS_ROOT_PATH);
+
+        // Bestimmung des Typs ("FILE" oder "DIRECTORY") UNBEDINGT ZUERST MACHEN
+        if (fileName.substring(fileName.lastIndexOf(".")).toLowerCase().equals(".pdf")) {
+            typ = "PDF";
+        } else if (fileName.substring(fileName.lastIndexOf(".")).toLowerCase().equals(".png")) {
+            typ = "PNG";
+        } else {
+            typ = "OTHER"; // Für symbolische Links, etc.
+        }
+
+        //Saison2526_22_ herausschneiden
+        fileName = fileName.length() > 14 ? fileName.substring(14) : fileName;
+        fileName = fileName.indexOf(".") > 0 ? fileName.substring(0, fileName.lastIndexOf(".")) : fileName;
+
+
+        return new FileItem(fileName, filePath, typ);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.kheuwes.footballforwall.model.historie.FileItem;
 import de.kheuwes.footballforwall.service.DocumentsService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -29,7 +30,7 @@ public class DocumentsController {
     }
 
     @GetMapping("/api/historie/documents")
-    public List<Path> getDocsForSaisonAndSpieltag(@RequestParam String typ, @RequestParam String saison, @RequestParam String spieltag) {
+    public List<FileItem> getDocsForSaisonAndSpieltag(@RequestParam String typ, @RequestParam String saison, @RequestParam String spieltag) {
         return this.documentsService.getDocsForSaisonAndSpieltag(typ, saison, spieltag);
     }
 }

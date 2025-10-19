@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import de.kheuwes.footballforwall.configuration.ExternalServiceProperties;
+import de.kheuwes.footballforwall.model.historie.FileItem;
 
 @Component
 public class DocumentsService {
@@ -25,7 +26,7 @@ public class DocumentsService {
             path -> path.getFileName().toString().startsWith("Saison")).collect(Collectors.toList());
     }
 
-    public List<Path> getDocsForSaisonAndSpieltag(String typ, String saison, String spieltag) {
+    public List<FileItem> getDocsForSaisonAndSpieltag(String typ, String saison, String spieltag) {
         return FolderLister.getDocsForSaisonAndSpieltag(typ, getDocumentsRootPath(), saison, spieltag);
     }
 }
