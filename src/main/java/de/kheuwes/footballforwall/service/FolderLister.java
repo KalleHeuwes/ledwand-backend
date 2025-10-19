@@ -30,11 +30,15 @@ public class FolderLister {
     }
 
     public static List<Path> getDocsForSaisonAndSpieltag(String typ, String startPathString, String saison, String spieltag ) {
-        String t = startPathString + "Saison" + saison + "\\" + typ;
+        String saisontmp = saison.replace("/", "");
+        if(saisontmp.length() > 4) {
+            saisontmp = saisontmp.substring(2, 6);
+        }
+        String t = startPathString + "Saison" + saisontmp + "\\" + typ;
         Path startPath = Paths.get(t);
         //V:\05\Saison2425\Dokumente\Saison2425_01_Spielbericht.pdf
         //final Pattern filePattern = Pattern.compile("Saison\\d{4}_\\d{2}_Spielbericht\\.pdf", Pattern.CASE_INSENSITIVE);
-        final Pattern filePattern = Pattern.compile("Saison" + saison + "_" + spieltag + ".*", Pattern.CASE_INSENSITIVE);
+        final Pattern filePattern = Pattern.compile("Saison" + saisontmp + "_" + spieltag + ".*", Pattern.CASE_INSENSITIVE);
         
         try (Stream<Path> stream = Files.list(startPath)) {
             
