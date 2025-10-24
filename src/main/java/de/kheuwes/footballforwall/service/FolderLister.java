@@ -67,8 +67,6 @@ public class FolderLister {
         String fileName = path.getFileName() != null ? path.getFileName().toString() : "";
         String filePath = path.toAbsolutePath().toString().replace(DOCS_ROOT_PATH, ".\\");
         String typ;
-        System.out.println("path.toAbsolutePath().toString(): " + path.toAbsolutePath().toString());
-        System.out.println("DOCS_ROOT_PATH: " + DOCS_ROOT_PATH);
 
         // Bestimmung des Typs ("FILE" oder "DIRECTORY") UNBEDINGT ZUERST MACHEN
         if (fileName.substring(fileName.lastIndexOf(".")).toLowerCase().equals(".pdf")) {
