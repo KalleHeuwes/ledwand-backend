@@ -67,6 +67,11 @@ public class HistorieController {
         return repoSpielerEinsatz.findBySaisonAndSpiel(getSaison(saison), spiel);
     }
 
+    @GetMapping("/api/historie/einsaetze")
+    public List<SpielerEinsatz> getEinsaetzeSpieler(@RequestParam String nachname, @RequestParam String vorname) {
+        return repoSpielerEinsatz.findByNachnameAndVorname(nachname, vorname);
+    }
+
     @GetMapping("/api/historie/spieltage/reset")
     public String getSpieltageReset() {   
         repoSpieltage.deleteAll();     
