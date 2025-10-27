@@ -67,6 +67,11 @@ public class HistorieController {
         return repoSpielerEinsatz.findBySaisonAndSpiel(getSaison(saison), spiel);
     }
 
+    @GetMapping("/api/historie/spielerliste")
+    public List<String> getSpielerliste() {
+        return repoSpielerEinsatz.findSpielernamen();
+    }
+
     @GetMapping("/api/historie/einsaetze")
     public List<SpielerEinsatz> getEinsaetzeSpieler(@RequestParam String nachname, @RequestParam String vorname) {
         return repoSpielerEinsatz.findByNachnameAndVorname(nachname, vorname);
