@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.kheuwes.footballforwall.model.historie.Abschlusstabelleneintrag;
 import de.kheuwes.footballforwall.model.historie.Saisoneintrag;
 import de.kheuwes.footballforwall.model.historie.SpielerEinsatz;
+import de.kheuwes.footballforwall.model.historie.SpielerSaisonPerformance;
 import de.kheuwes.footballforwall.model.historie.Spieltage;
 import de.kheuwes.footballforwall.repository.historie.AbschlusstabellenRepository;
 import de.kheuwes.footballforwall.repository.historie.SaisoneintragRepository;
@@ -73,8 +74,23 @@ public class HistorieController {
     }
 
     @GetMapping("/api/historie/einsaetze")
-    public List<SpielerEinsatz> getEinsaetzeSpieler(@RequestParam String nachname, @RequestParam String vorname) {
+    public List<SpielerEinsatz> getEinsaetzeSpieler(
+        @RequestParam String nachname, 
+        @RequestParam String vorname,
+        @RequestParam(defaultValue = "*") String saison) 
+    {
+        if (!saison.equals("*")) {
+            return repoSpielerEinsatz.findByNachnameAndVornameAndSaison(nachname, vorname, getSaison(saison));
+        }
         return repoSpielerEinsatz.findByNachnameAndVorname(nachname, vorname);
+    }
+
+    @GetMapping("/api/historie/einsaetze/saisons")
+    public List<SpielerSaisonPerformance> getEinsaetzeSaisons(
+        @RequestParam String nachname, 
+        @RequestParam String vorname) 
+    {
+        return repoSpielerEinsatz.findDistinctSaisonsBySpieler(nachname, vorname);
     }
 
     @GetMapping("/api/historie/spieltage/reset")
