@@ -834,3 +834,8 @@ SELECT DISTINCT s.saison, Count(*) anzSpiele FROM Spielereinsaetze s WHERE s.nac
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "SELECT NEW de[*].kheuwes.footballforwall.model.historie.SpielerSaisonPerformance(e.saison, e.nachname, e.vorname, COUNT(e.saison), 0L, 0L) FROM spielereinsaetze e WHERE e.nachname = ? AND e.vorname = ? GROUP BY e.saison, e.nachname, e.vorname"
 Syntax error in SQL statement "SELECT NEW de[*].kheuwes.footballforwall.model.historie.SpielerSaisonPerformance(e.saison, e.nachname, e.vorname, COUNT(e.saison), 0L, 0L) FROM spielereinsaetze e WHERE e.nachname = ? AND e.vorname = ? GROUP BY e.saison, e.nachname, e.vorname"; SQL statement:
 SELECT NEW de.kheuwes.footballforwall.model.historie.SpielerSaisonPerformance(e.saison, e.nachname, e.vorname, COUNT(e.saison), 0L, 0L) FROM spielereinsaetze e WHERE e.nachname = ? AND e.vorname = ? GROUP BY e.saison, e.nachname, e.vorname [42000-224]
+2025-11-06 19:41:55.089359+01:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabelle "SAISONEINTRAGABSCHLUSSTABELLENEINTRAG" nicht gefunden
+Table "SAISONEINTRAGABSCHLUSSTABELLENEINTRAG" not found; SQL statement:
+SELECT 'SAISONEINTRAG' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM SAISONEINTRAGABSCHLUSSTABELLENEINTRAG [42102-224]

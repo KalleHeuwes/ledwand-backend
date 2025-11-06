@@ -1,5 +1,16 @@
 -- Abschicken auf http://localhost:8080/h2-console; jdbc:h2:file:./data/fussballDB; sa; password
 
+-- Anzahl Saisons, erste und letzte je Tabelle
+CREATE OR REPLACE VIEW STATUS_VW AS 
+SELECT 'ABSCHLUSSTABELLEN' kategorie, COUNT(DISTINCT saison) saison_anzahl, MIN(saison) saison_min, MAX(saison) saison_max 
+FROM ABSCHLUSSTABELLENEINTRAG UNION ALL
+SELECT 'SAISONS' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM SAISONEINTRAG UNION ALL
+SELECT 'SPIELEREINSAETZE' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM SPIELEREINSAETZE UNION ALL
+SELECT 'SPIELTAGE' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM SPIELTAGE;
+
 /* WIRD NICHT MEHR GEBRAUCHT
 -- View zum Einsatz der Spieler in den Spielen, Enthält die Gruppierung in Startelf, Bank und Kader
 CREATE OR REPLACE VIEW SPIELER_EINSATZ_VW AS 
