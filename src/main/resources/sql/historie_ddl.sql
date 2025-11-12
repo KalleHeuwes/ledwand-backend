@@ -1,5 +1,9 @@
 -- Abschicken auf http://localhost:8080/h2-console; jdbc:h2:file:./data/fussballDB; sa; password
 
+CREATE OR REPLACE VIEW SPIELEREINSAETZE_VW AS 
+SELECT E.*, S.DATUM, S.GEGNER, S.ERGEBNIS, S.GESCHOSSEN, S.KASSIERT FROM SPIELEREINSAETZE E
+INNER JOIN SPIELTAGE S ON E.SAISON = S.SAISON AND E.SPIEL = S.SPIELTAG;
+
 -- Anzahl Saisons, erste und letzte je Tabelle
 CREATE OR REPLACE VIEW STATUS_VW AS 
 SELECT 'ABSCHLUSSTABELLEN' kategorie, COUNT(DISTINCT saison) saison_anzahl, MIN(saison) saison_min, MAX(saison) saison_max 
