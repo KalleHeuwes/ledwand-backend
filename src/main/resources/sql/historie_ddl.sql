@@ -1,8 +1,18 @@
 -- Abschicken auf http://localhost:8080/h2-console; jdbc:h2:file:./data/fussballDB; sa; password
 
 CREATE OR REPLACE VIEW SPIELEREINSAETZE_VW AS 
-SELECT E.*, S.DATUM, S.GEGNER, S.ERGEBNIS, S.GESCHOSSEN, S.KASSIERT FROM SPIELEREINSAETZE E
-INNER JOIN SPIELTAGE S ON E.SAISON = S.SAISON AND E.SPIEL = S.SPIELTAG;
+SELECT E.id, E.nachname, E.vorname, E.saison, E.spiel, E.einsatz, E.gruppe
+    ,   CASE 
+            WHEN E.einsatz = 'Voll' THEN 90
+            WHEN E.einsatz = 'Kader' THEN 0
+            WHEN E.einsatz LIKE '%-%' THEN 
+                CAST(SUBSTRING(E.einsatz, POSITION('-', E.einsatz) + 1) AS INT) -
+                CAST(SUBSTRING(E.einsatz, 1, POSITION('-', E.einsatz) - 1) AS INT) + 1
+            ELSE 0
+        END AS SPIELMINUTEN
+    , S.DATUM, S.GEGNER, S.ERGEBNIS, S.punkte, S.heim_oder_auswaerts HA, S.GESCHOSSEN, S.KASSIERT
+FROM        SPIELEREINSAETZE    E
+INNER JOIN  SPIELTAGE           S ON E.SAISON = S.SAISON AND E.SPIEL = S.SPIELTAG;
 
 -- Anzahl Saisons, erste und letzte je Tabelle
 CREATE OR REPLACE VIEW STATUS_VW AS 
