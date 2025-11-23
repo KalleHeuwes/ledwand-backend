@@ -27,11 +27,12 @@ public interface SpielerEinsatzRepository extends JpaRepository<SpielerEinsatz, 
     List<Object[]> queryViewNative(String name);
 
     @Query("SELECT NEW de.kheuwes.footballforwall.model.historie.SpielerSaisonPerformance(" + 
-           "e.saison, e.nachname, e.vorname, COUNT(e.saison), 0L, 0L) " +
-           "FROM SpielerEinsatz e " + 
-           "WHERE e.nachname = :nachname AND e.vorname = :vorname " +
-           "GROUP BY e.saison, e.nachname, e.vorname") 
-    List<SpielerSaisonPerformance> findDistinctSaisonsBySpieler(
+           "e.nachname, e.vorname, e.saison, e.liga, e.spieleSpieler, e.spieleTeam, e.spieleAnteil" +
+           ", e.spielminutenSpieler, e.spielminutenTeam, e.spielminutenAnteil" +
+           ", e.punkteSpieler, e.punkteTeam, e.punkteAnteil, e.spielMin, e.spielMax) " +
+           "FROM SpielerSaisonPerformance e " + 
+           "WHERE e.nachname = :nachname AND e.vorname = :vorname ") 
+    List<SpielerSaisonPerformance> querySpielerPerformance(
         @Param("nachname") String nachname,
         @Param("vorname") String vorname
     );

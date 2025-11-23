@@ -90,7 +90,7 @@ public class HistorieController {
         @RequestParam String nachname, 
         @RequestParam String vorname) 
     {
-        return repoSpielerEinsatz.findDistinctSaisonsBySpieler(nachname, vorname);
+        return repoSpielerEinsatz.querySpielerPerformance(nachname, vorname);
     }
 
     @GetMapping("/api/historie/spieltage/reset")

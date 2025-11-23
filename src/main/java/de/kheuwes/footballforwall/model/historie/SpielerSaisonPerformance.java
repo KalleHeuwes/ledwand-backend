@@ -1,49 +1,52 @@
 package de.kheuwes.footballforwall.model.historie;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "spielerperformance_vw")
 public class SpielerSaisonPerformance {
-    String saison;  
+    
+    @Id 
+    @Column(name = "id_min")
+    private Long id;
     String nachname;
     String vorname;
-    Long anzSpiele;
-    Long anzMinuten;
-    Long anzTore;
+    String saison;  
+    String liga;  
+    Long spieleSpieler;
+    Long spieleTeam;
+    Double spieleAnteil;
+    Long spielminutenSpieler;
+    Long spielminutenTeam;
+    Double spielminutenAnteil;
+    Long punkteSpieler;
+    Long punkteTeam;
+    Double punkteAnteil;
+    Long spielMin;
+    Long spielMax;
 
-    public SpielerSaisonPerformance(String saison, String nachname, String vorname
-    , Long anzSpiele, Long anzMinuten, Long anzTore) {
-        this.saison = saison;
+
+    public SpielerSaisonPerformance(String nachname, String vorname, String saison, String liga
+        , Long spieleSpieler, Long spieleTeam, Double spieleAnteil
+        , Long spielminutenSpieler, Long spielminutenTeam, Double spielminutenAnteil
+        , Long punkteSpieler, Long punkteTeam, Double punkteAnteil
+        , Long spielMin, Long spielMax) {
         this.nachname = nachname;
         this.vorname = vorname;
-        this.anzSpiele = anzSpiele;
-        this.anzMinuten = anzMinuten;
-        this.anzTore = anzTore;
-    }
-    
-    // Getter und Setter
-    public String getSaison() {
-        return saison;
-    }
-
-    public void setSaison(String saison) {
         this.saison = saison;
+        this.liga = liga;
+        this.spieleSpieler = spieleSpieler;
+        this.spieleTeam = spieleTeam;
+        this.spieleAnteil = spieleAnteil;
+        this.spielminutenSpieler = spielminutenSpieler;
+        this.punkteSpieler = punkteSpieler;
+        this.punkteTeam = punkteTeam;
+        this.punkteAnteil = punkteAnteil;
+        this.spielMin = spielMin;
+        this.spielMax = spielMax;
     }
 
-    public Long getAnzSpiele() {
-        return anzSpiele;
-    }
-
-    public void setAnzSpiele(Long anzSpiele) {
-        this.anzSpiele = anzSpiele;
-    }
-
-    public Long getAnzMinuten() {
-        return anzMinuten;
-    }
-
-    public void setAnzMinuten(Long anzMinuten) {
-        this.anzMinuten = anzMinuten;
-    }
-
-        public String getNachname() {
+    public String getNachname() {
         return nachname;
     }
 
@@ -58,12 +61,120 @@ public class SpielerSaisonPerformance {
     public void setVorname(String vorname) {
         this.vorname = vorname;
     }
-    
-    public Long getAnzTore() {
-        return anzTore;
+
+    public String getSaison() {
+        return saison;
     }
 
-    public void setAnzTore(Long anzTore) {
-        this.anzTore = anzTore;
+    public void setSaison(String saison) {
+        this.saison = saison;
     }
+
+    public String getLiga() {
+        return liga;
+    }
+
+    public void setLiga(String liga) {
+        this.liga = liga;
+    }
+
+    public Long getSpieleSpieler() {
+        return spieleSpieler;
+    }
+
+    public void setSpieleSpieler(Long spieleSpieler) {
+        this.spieleSpieler = spieleSpieler;
+    }
+
+    public Long getSpieleTeam() {
+        return spieleTeam;
+    }
+
+    public void setSpieleTeam(Long spieleTeam) {
+        this.spieleTeam = spieleTeam;
+    }
+
+    public Double getSpieleAnteil() {
+        return spieleAnteil;
+    }
+
+    public void setSpieleAnteil(Double spieleAnteil) {
+        this.spieleAnteil = spieleAnteil;
+    }
+
+    public Long getSpielminutenSpieler() {
+        return spielminutenSpieler;
+    }
+
+    public void setSpielminutenSpieler(Long spielminutenSpieler) {
+        this.spielminutenSpieler = spielminutenSpieler;
+    }
+
+    public Long getSpielminutenTeam() {
+        return spielminutenTeam;
+    }
+
+    public void setSpielminutenTeam(Long spielminutenTeam) {
+        this.spielminutenTeam = spielminutenTeam;
+    }
+
+    public Double getSpielminutenAnteil() {
+        return spielminutenAnteil;
+    }
+
+    public void setSpielminutenAnteil(Double spielminutenAnteil) {
+        this.spielminutenAnteil = spielminutenAnteil;
+    }
+
+    public Long getPunkteSpieler() {
+        return punkteSpieler;
+    }
+
+    public void setPunkteSpieler(Long punkteSpieler) {
+        this.punkteSpieler = punkteSpieler;
+    }
+
+    public Long getPunkteTeam() {
+        return punkteTeam;
+    }
+
+    public void setPunkteTeam(Long punkteTeam) {
+        this.punkteTeam = punkteTeam;
+    }
+
+    public Double getPunkteAnteil() {
+        return punkteAnteil;
+    }
+
+    public void setPunkteAnteil(Double punkteAnteil) {
+        this.punkteAnteil = punkteAnteil;
+    }
+
+    public Long getSpielMin() {
+        return spielMin;
+    }
+
+    public void setSpielMin(Long spielMin) {
+        this.spielMin = spielMin;
+    }
+
+    public Long getSpielMax() {
+        return spielMax;
+    }
+
+    public void setSpielMax(Long spielMax) {
+        this.spielMax = spielMax;
+    }
+
+    @Override
+    public String toString() {
+        return "SpielerSaisonPerformance [nachname=" + nachname + ", vorname=" + vorname + ", saison=" + saison
+                + ", liga=" + liga + ", spieleSpieler=" + spieleSpieler + ", spieleTeam=" + spieleTeam
+                + ", spieleAnteil=" + spieleAnteil + ", spielminutenSpieler=" + spielminutenSpieler
+                + ", spielminutenTeam=" + spielminutenTeam + ", spielminutenAnteil=" + spielminutenAnteil
+                + ", punkteSpieler=" + punkteSpieler + ", punkteTeam=" + punkteTeam + ", punkteAnteil=" + punkteAnteil
+                + ", spielMin=" + spielMin + ", spielMax=" + spielMax + "]";
+    }
+
+
 }
