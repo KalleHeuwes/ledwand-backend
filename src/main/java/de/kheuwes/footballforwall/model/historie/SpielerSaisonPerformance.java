@@ -40,6 +40,8 @@ public class SpielerSaisonPerformance {
         this.spieleTeam = spieleTeam;
         this.spieleAnteil = spieleAnteil;
         this.spielminutenSpieler = spielminutenSpieler;
+        this.spielminutenTeam = spielminutenTeam;
+        this.spielminutenAnteil = spielminutenAnteil;
         this.punkteSpieler = punkteSpieler;
         this.punkteTeam = punkteTeam;
         this.punkteAnteil = punkteAnteil;

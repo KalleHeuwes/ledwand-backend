@@ -2,15 +2,15 @@
 
 CREATE OR REPLACE VIEW SPIELERPERFORMANCE_VW AS 
 SELECT min(e.id) id_min, e.nachname, e.vorname, e.saison, max(s.liga) liga
-    , Count(e.*) spiele_spieler, max(s.spiele) spiele_team, 100 * Count(e.*) / max(s.spiele) AS spiele_anteil
-    , Sum(e.spielminuten) spielminuten_spieler, (max(s.spiele) * 90) AS spielminuten_team
-    , 100 * Sum(e.spielminuten) / (max(s.spiele) * 90) AS spielminuten_anteil
-    , Sum(e.punkte) punkte_spieler, max(s.punkte) punkte_team, 100 * Sum(e.punkte) / max(s.punkte) AS punkte_anteil
+    , Count(e.*) spiele_spieler, s.spiele spiele_team, 100 * Count(e.*) / s.spiele AS spiele_anteil
+    , Sum(e.spielminuten) spielminuten_spieler, Cast(s.spiele * 90 AS INTEGER) AS spielminuten_team
+    , 100 * Sum(e.spielminuten) / (s.spiele * 90) AS spielminuten_anteil
+    , Sum(e.punkte) punkte_spieler, s.punkte punkte_team, 100 * Sum(e.punkte) / s.punkte AS punkte_anteil
     , min(e.spiel) spiel_min, max(e.spiel) spiel_max   
     , s.bemerkungen 
 FROM        SPIELEREINSAETZE_VW E
 INNER JOIN  SAISONEINTRAG       S ON E.SAISON = S.SAISON
-GROUP BY e.nachname, e.vorname, e.saison 
+GROUP BY e.nachname, e.vorname, e.saison, s.spiele, s.punkte
 ORDER BY e.nachname, e.vorname, e.saison
 
 CREATE OR REPLACE VIEW SPIELEREINSAETZE_VW AS 
