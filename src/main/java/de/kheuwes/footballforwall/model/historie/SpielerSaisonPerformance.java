@@ -24,13 +24,14 @@ public class SpielerSaisonPerformance {
     Double punkteAnteil;
     Long spielMin;
     Long spielMax;
+    String bemerkungen;  
 
 
     public SpielerSaisonPerformance(String nachname, String vorname, String saison, String liga
         , Long spieleSpieler, Long spieleTeam, Double spieleAnteil
         , Long spielminutenSpieler, Long spielminutenTeam, Double spielminutenAnteil
         , Long punkteSpieler, Long punkteTeam, Double punkteAnteil
-        , Long spielMin, Long spielMax) {
+        , Long spielMin, Long spielMax, String bemerkungen) {
         this.nachname = nachname;
         this.vorname = vorname;
         this.saison = saison;
@@ -44,6 +45,7 @@ public class SpielerSaisonPerformance {
         this.punkteAnteil = punkteAnteil;
         this.spielMin = spielMin;
         this.spielMax = spielMax;
+        this.bemerkungen = bemerkungen;
     }
 
     public String getNachname() {
@@ -166,6 +168,14 @@ public class SpielerSaisonPerformance {
         this.spielMax = spielMax;
     }
 
+    public String getBemerkungen() {
+        return bemerkungen;
+    }
+
+    public void setBemerkungen(String bemerkungen) {
+        this.bemerkungen = bemerkungen;
+    }
+
     @Override
     public String toString() {
         return "SpielerSaisonPerformance [nachname=" + nachname + ", vorname=" + vorname + ", saison=" + saison
@@ -173,7 +183,7 @@ public class SpielerSaisonPerformance {
                 + ", spieleAnteil=" + spieleAnteil + ", spielminutenSpieler=" + spielminutenSpieler
                 + ", spielminutenTeam=" + spielminutenTeam + ", spielminutenAnteil=" + spielminutenAnteil
                 + ", punkteSpieler=" + punkteSpieler + ", punkteTeam=" + punkteTeam + ", punkteAnteil=" + punkteAnteil
-                + ", spielMin=" + spielMin + ", spielMax=" + spielMax + "]";
+                + ", spielMin=" + spielMin + ", spielMax=" + spielMax + ", bemerkungen=" + bemerkungen + "]";
     }
 
 

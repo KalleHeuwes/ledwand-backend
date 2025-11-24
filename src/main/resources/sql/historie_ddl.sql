@@ -6,9 +6,10 @@ SELECT min(e.id) id_min, e.nachname, e.vorname, e.saison, max(s.liga) liga
     , Sum(e.spielminuten) spielminuten_spieler, (max(s.spiele) * 90) AS spielminuten_team
     , 100 * Sum(e.spielminuten) / (max(s.spiele) * 90) AS spielminuten_anteil
     , Sum(e.punkte) punkte_spieler, max(s.punkte) punkte_team, 100 * Sum(e.punkte) / max(s.punkte) AS punkte_anteil
-    , min(e.spiel) spiel_min, max(e.spiel) spiel_max    
-FROM SPIELEREINSAETZE_VW E
-INNER JOIN SAISONEINTRAG S ON E.SAISON = S.SAISON
+    , min(e.spiel) spiel_min, max(e.spiel) spiel_max   
+    , s.bemerkungen 
+FROM        SPIELEREINSAETZE_VW E
+INNER JOIN  SAISONEINTRAG       S ON E.SAISON = S.SAISON
 GROUP BY e.nachname, e.vorname, e.saison 
 ORDER BY e.nachname, e.vorname, e.saison
 

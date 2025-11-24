@@ -29,7 +29,7 @@ public interface SpielerEinsatzRepository extends JpaRepository<SpielerEinsatz, 
     @Query("SELECT NEW de.kheuwes.footballforwall.model.historie.SpielerSaisonPerformance(" + 
            "e.nachname, e.vorname, e.saison, e.liga, e.spieleSpieler, e.spieleTeam, e.spieleAnteil" +
            ", e.spielminutenSpieler, e.spielminutenTeam, e.spielminutenAnteil" +
-           ", e.punkteSpieler, e.punkteTeam, e.punkteAnteil, e.spielMin, e.spielMax) " +
+           ", e.punkteSpieler, e.punkteTeam, e.punkteAnteil, e.spielMin, e.spielMax, e.bemerkungen) " +
            "FROM SpielerSaisonPerformance e " + 
            "WHERE e.nachname = :nachname AND e.vorname = :vorname ") 
     List<SpielerSaisonPerformance> querySpielerPerformance(
