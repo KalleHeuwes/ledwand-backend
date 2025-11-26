@@ -2,7 +2,6 @@ package de.kheuwes.footballforwall.service;
 
 import de.kheuwes.footballforwall.model.historie.Abschlusstabelleneintrag;
 import de.kheuwes.footballforwall.model.historie.Saisoneintrag;
-import de.kheuwes.footballforwall.model.historie.SpielerEinsatz;
 import de.kheuwes.footballforwall.model.historie.Spieltage;
 import de.kheuwes.footballforwall.repository.historie.AbschlusstabellenRepository;
 import de.kheuwes.footballforwall.repository.historie.SaisoneintragRepository;
@@ -19,6 +18,13 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Function;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
+
 @Component // Stellt sicher, dass Spring diese Klasse als Bean erkennt und ausführt
 public class DatenimportService {
     // ClassPathResource sucht die Dateien im 'src/main/resources'-Verzeichnis des Projekts
@@ -26,6 +32,12 @@ public class DatenimportService {
     private final SaisoneintragRepository repoSaison;
     private final SpielerEinsatzRepository repoSpielerEinsatz;
     private final SpieltageRepository repoSpieltage;
+
+    private static final String JDBC_URL = "jdbc:h2:file:./data/fussballDB";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "password";
+    private static final String INSERT_SQL = "INSERT INTO spielereinsaetze (ID, SAISON, SPIEL, NACHNAME, VORNAME, EINSATZ, GRUPPE) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final int BATCH_SIZE = 1000;
     
     // Konstruktor-Injektion (bevorzugte Methode in Spring)
     public DatenimportService(AbschlusstabellenRepository repoTabelle, SaisoneintragRepository repoSaison,
@@ -41,7 +53,7 @@ public class DatenimportService {
         try {
             anz+=importCsv("historie/abschlusstabellen.csv",  12, repoTabelle, this::createTabelleEntry );
             anz+=importCsv("historie/saisons.csv",  10, repoSaison, this::createSaisonEntry );
-            anz+=importCsv("historie/kader.csv",  6, repoSpielerEinsatz, this::createSpielerEinsatzEntry );
+            anz+=importKader("historie/kader.csv",  6);
             anz+=importCsv("historie/spieltage.csv",  10, repoSpieltage, this::createSpieltageEntry );
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,7 +68,11 @@ public class DatenimportService {
         System.out.println("Starte Datenimport aus: " + csvFileName);
 
         try (BufferedReader reader = getReaderForCsv(csvFileName)) {
-            repository.deleteAll();
+            if(csvFileName.equals("historie/kader.csv")){ 
+                repoSpielerEinsatz.bulkDeleteAll();
+            }else{
+                repository.deleteAll();
+            }
 
             String line;
             boolean isHeader = true;
@@ -90,6 +106,107 @@ public class DatenimportService {
         }
     }
 
+    private static List<String> readCsv(String filePath) throws Exception {
+        System.out.println("Lese Semikolon-getrennte CSV-Datei: " + filePath);
+        List<String> lines = new ArrayList<>();
+        
+
+        try (InputStream inputStream = DatenimportService.class.getClassLoader().getResourceAsStream(filePath);
+        InputStreamReader isr = new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1);
+                 BufferedReader br = new BufferedReader(isr)) {
+                    String line = br.readLine();
+                    while ((line = br.readLine()) != null) {
+                    if (!line.trim().isEmpty()) { 
+                        lines.add(line);
+                    }
+                }
+            return lines;
+        }
+    }
+
+    /**
+     * Speichert die gelesenen CSV-Records in die H2-Datenbank.
+     */
+    private static void importDataToH2(List<String> records) throws Exception {
+        Class.forName("org.h2.Driver"); 
+
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL)) {
+
+            connection.setAutoCommit(false); 
+            int count = 0;
+
+            System.out.println("Starte Import von " + records.size() + " Datensätzen...");
+
+            for (String record : records) {
+                //System.out.println(" * record " + record);
+                // Zugriff auf die Spalten über den Index (0 bis 5)
+                String[] values = record.split(";", -1);
+                String saison = values[0].trim();
+                String spielStr = values[1].trim();
+                String spielValueClean = spielStr
+                    // 1. Entferne alle Zeichen, die KEINE Ziffern sind (0-9)
+                    .replaceAll("[^0-9]", "")
+                    // 2. Trimme resultierende Leerzeichen (obwohl nach dem Regex unnötig, schadet es nicht)
+                        .trim();
+                
+                // Konvertierung der Zahlen (Spiel)
+                int spiel = Integer.parseInt(spielValueClean); 
+                
+                String nachname = values[2].trim();
+                String vorname = values[3].trim();
+                String einsatz = values[4].trim();
+                String gruppe = values[5].trim();
+
+                // Parameter für das Prepared Statement setzen (Index beginnt bei 1)
+                
+                preparedStatement.setInt(1, count);
+                preparedStatement.setString(2, saison);
+                preparedStatement.setInt(3, spiel);
+                preparedStatement.setString(4, nachname);
+                preparedStatement.setString(5, vorname);
+                preparedStatement.setString(6, einsatz);
+                preparedStatement.setString(7, gruppe);
+                
+                preparedStatement.addBatch();
+                count++;
+
+                // Batch ausführen
+                if (count % BATCH_SIZE == 0) {
+                    preparedStatement.executeBatch();
+                    connection.commit(); 
+                    System.out.println("-> Batch # " + (count / BATCH_SIZE) + " committed.");
+                }
+            }
+            
+            // Verbleibenden Batch ausführen
+            preparedStatement.executeBatch(); 
+            connection.commit(); 
+            connection.setAutoCommit(true); 
+            
+            System.out.println("✅ Import erfolgreich abgeschlossen. " + records.size() + " Datensätze importiert.");
+
+        } 
+    }
+
+    @Transactional
+    public int importKader(String csvFileName, int minColumnCount) throws Exception {
+
+        System.out.println("Starte Datenimport aus: " + csvFileName);
+        List<String> records = List.of();
+
+        try {
+            records = readCsv(csvFileName);
+            if (!records.isEmpty()) {
+                importDataToH2(records);
+            }
+        } catch (Exception e) {
+            System.err.println("Ein Fehler ist aufgetreten: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return records.size();
+    }
+
     // Helferfunktion für das Parsing von Integer-Werten
     // Wir verwenden Integer.valueOf() und kümmern uns um mögliche Leerstrings oder Fehler.
     java.util.function.Function<String, Integer> safeParseInt = s -> {
@@ -101,22 +218,6 @@ public class DatenimportService {
         }
     };
     
-    /**
-     * Helfermethode zum Erstellen eines Abschlusstabelleneintrags aus den String-Werten.
-     */
-    private SpielerEinsatz createSpielerEinsatzEntry(String[] values) {        
-        // Die Spalten sind: Saison(0);Nachname(1);Vorname(2);1(3);2(4);...;34(35)
-        SpielerEinsatz einsatz = new SpielerEinsatz();
-        einsatz.setSaison(values[0].trim());
-        einsatz.setSpiel(safeParseInt.apply(values[1].trim()));
-        einsatz.setNachname(values[2].trim());
-        einsatz.setVorname(values[3].trim());
-        einsatz.setEinsatz(values[4].trim());
-        einsatz.setGruppe(values[5].trim());
-
-        return einsatz;
-    }
-
 
     /**
      * Helfermethode zum Erstellen eines Spieltageeintrags aus den String-Werten.

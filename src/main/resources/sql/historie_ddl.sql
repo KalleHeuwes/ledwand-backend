@@ -38,6 +38,9 @@ FROM SPIELEREINSAETZE UNION ALL
 SELECT 'SPIELTAGE' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
 FROM SPIELTAGE;
 
+drop table spielereinsaetze;
+create table spielereinsaetze (ID integer, SAISON varchar(20), SPIEL integer, NACHNAME varchar(50), VORNAME varchar(50), EINSATZ varchar(20), GRUPPE varchar(20));
+
 /* WIRD NICHT MEHR GEBRAUCHT
 -- View zum Einsatz der Spieler in den Spielen, Enthält die Gruppierung in Startelf, Bank und Kader
 CREATE OR REPLACE VIEW SPIELER_EINSATZ_VW AS 

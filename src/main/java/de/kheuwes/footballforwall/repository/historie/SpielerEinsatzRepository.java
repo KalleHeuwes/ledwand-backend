@@ -3,8 +3,10 @@ package de.kheuwes.footballforwall.repository.historie;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.kheuwes.footballforwall.model.historie.SpielerEinsatz;
 import de.kheuwes.footballforwall.model.historie.SpielerSaisonPerformance;
@@ -25,6 +27,14 @@ public interface SpielerEinsatzRepository extends JpaRepository<SpielerEinsatz, 
                    "WHERE spielername = :name", 
            nativeQuery = true)
     List<Object[]> queryViewNative(String name);
+
+@Modifying
+@Transactional
+@Query(
+    value = "DELETE FROM spielereinsaetze", // <-- Die Basistabelle im SQL verwenden
+    nativeQuery = true // <-- Wichtig: Dies erzwingt die Ausführung von nativem SQL
+)
+void bulkDeleteAll();
 
     @Query("SELECT NEW de.kheuwes.footballforwall.model.historie.SpielerSaisonPerformance(" + 
            "e.nachname, e.vorname, e.saison, e.liga, e.spieleSpieler, e.spieleTeam, e.spieleAnteil" +

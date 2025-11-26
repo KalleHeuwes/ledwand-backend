@@ -1,8 +1,11 @@
 package de.kheuwes.footballforwall.model.historie;
 
+import org.hibernate.annotations.Immutable;
+
 import jakarta.persistence.*;
 
 @Entity
+@Immutable
 @Table(name = "spielereinsaetze_vw")
 public class SpielerEinsatz {
 
