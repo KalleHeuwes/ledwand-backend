@@ -52,10 +52,10 @@ public class DBService implements CommandLineRunner {
             conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
             System.out.println("Verbindung erfolgreich hergestellt.");
 
-            execDDL(conn, "Abschlusstabelle", getDDLAbschlusstabelle());
+            execDDL(conn, "Abschlusstabellen", getDDLAbschlusstabellen());
             execDDL(conn, "Saisons", getDDLSaisons());
             execDDL(conn, "Kader", getDDLKader());
-            //execDDL(conn, "SpielerEinsatz", getDDLSpielerEinsatz());
+            execDDL(conn, "Spieltage", getDDLSpieltage());
 
         } catch (SQLException se) {
             // Fehler bei der JDBC-Verarbeitung
@@ -93,9 +93,9 @@ public class DBService implements CommandLineRunner {
 
     }
 
-    public static String getDDLAbschlusstabelle(){
+    public static String getDDLAbschlusstabellen(){
         //Saison;Quelle;Liga;Platz;Mannschaft;Spiele;g;u;v;Tore;Diff;Punkte
-        return "CREATE TABLE IF NOT EXISTS abschlusstabelle (\n" +
+        return "CREATE TABLE IF NOT EXISTS abschlusstabellen (\n" +
                "    id SERIAL PRIMARY KEY,\n" +
                "    saison VARCHAR(10) NOT NULL,\n" +
                "    quelle VARCHAR(100) NOT NULL,\n" +
@@ -121,10 +121,10 @@ public class DBService implements CommandLineRunner {
                "    spiele INT NOT NULL,\n" +
                "    platz INT NOT NULL,\n" +
                "    punkte INT NOT NULL,\n" +
-               "    bemerkungen TEXT,\n" +
-               "    performanceindex DOUBLE PRECISION,\n" +
+               "    bemerkungen VARCHAR(500),\n" +
+               "    performanceindex INT,\n" +
                "    import_tabelle VARCHAR(100),\n" +
-               "    import_spiele INT,\n" +
+               "    import_spiele VARCHAR(100),\n" +
                "    quelle VARCHAR(100) NOT NULL\n" +
                ");";
     }
@@ -154,8 +154,8 @@ public class DBService implements CommandLineRunner {
                "    ergebnis VARCHAR(10) NOT NULL,\n" +
                "    punkte INT NOT NULL,\n" +
                "    platz INT NOT NULL,\n" +
-               "    geschossen INT NOT NULL,\n" +
-               "    kassiert INT NOT NULL\n" +
+               "    geschossen VARCHAR(200) NOT NULL,\n" +
+               "    kassiert VARCHAR(20) NOT NULL\n" +
                ");";
     }
 

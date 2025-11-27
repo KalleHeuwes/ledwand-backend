@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,10 +57,10 @@ public class DatenimportService {
     public int importAllData(){
         int anz=0;
         try {
-            //anz+=importCsv("historie/abschlusstabellen.csv",  12, repoTabelle, this::createTabelleEntry );
-            //anz+=importCsv("historie/saisons.csv",  10, repoSaison, this::createSaisonEntry );
+            anz+=importAbschlusstabelle("historie/abschlusstabellen.csv" );
+            anz+=importSaisons("historie/saisons.csv" );
             anz+=importKader("historie/kader.csv");
-            //anz+=importCsv("historie/spieltage.csv",  10, repoSpieltage, this::createSpieltageEntry );
+            anz+=importSpieltage("historie/spieltage.csv" );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,6 +142,68 @@ public class DatenimportService {
      * Speichert die gelesenen Kader-Einträge in die H2-Datenbank.
      */
     @Transactional
+    private int importSpieltage(String csvFileName) throws Exception {
+        List<String> records = List.of();
+        int count = 0;
+        //Saison;Spieltag;Datum;H/A;Gegner;Ergebnis;Punkte;Platz;Geschossen;Kassiert
+        String INSERT_SQL = "INSERT INTO spieltage (ID, SAISON, SPIELTAG, DATUM, HA, GEGNER, ERGEBNIS, PUNKTE, PLATZ, GESCHOSSEN, KASSIERT) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        Class.forName("org.h2.Driver"); 
+
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL);
+             Statement stmt = connection.createStatement()) {
+            records = readCsv(csvFileName);            
+
+            connection.setAutoCommit(false); 
+
+            System.out.println("Starte Import von " + records.size() + " Datensätzen...");
+            stmt.execute("DELETE FROM spieltage");
+
+            for (String record : records) {
+                String[] values = record.split(";", -1);         
+
+                // Parameter für das Prepared Statement setzen (Index beginnt bei 1)  
+                //Saison;Spieltag;Datum;H/A;Gegner;Ergebnis;Punkte;Platz;Geschossen;Kassiert              
+                preparedStatement.setInt(1, count);
+                preparedStatement.setString(2, values[0].trim()); // Saison
+                preparedStatement.setInt(3, cleanNumber(values[1])); // Spieltag
+                preparedStatement.setString(4, values[2].trim());
+                preparedStatement.setString(5, values[3].trim());
+                preparedStatement.setString(6, values[4].trim());
+                preparedStatement.setString(7, values[5].trim());
+                preparedStatement.setInt(8, cleanNumber(values[6]));
+                preparedStatement.setInt(9, cleanNumber(values[7]));
+                preparedStatement.setString(10, values[8].trim());
+                preparedStatement.setString(11, values[9].trim());
+                
+                preparedStatement.addBatch();
+                count++;
+
+                // Batch ausführen
+                if (count % BATCH_SIZE == 0) {
+                    preparedStatement.executeBatch();
+                    connection.commit(); 
+                    System.out.println("-> Batch # " + (count / BATCH_SIZE) + " committed.");
+                }
+            }
+            
+            // Verbleibenden Batch ausführen
+            preparedStatement.executeBatch(); 
+            connection.commit(); 
+            connection.setAutoCommit(true); 
+            
+            System.out.println("✅ Import erfolgreich abgeschlossen. " + records.size() + " Datensätze importiert.");
+
+        } 
+        return count;
+    }
+    
+    /**
+     * Speichert die gelesenen Kader-Einträge in die H2-Datenbank.
+     */
+    @Transactional
     private int importKader(String csvFileName) throws Exception {
         List<String> records = List.of();
         int count = 0;
@@ -150,12 +213,14 @@ public class DatenimportService {
         Class.forName("org.h2.Driver"); 
 
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL);
+             Statement stmt = connection.createStatement()) {
             records = readCsv(csvFileName);            
 
             connection.setAutoCommit(false); 
 
             System.out.println("Starte Import von " + records.size() + " Datensätzen...");
+            stmt.execute("DELETE FROM kader");
 
             for (String record : records) {
                 String[] values = record.split(";", -1);         
@@ -190,39 +255,111 @@ public class DatenimportService {
         } 
         return count;
     }
-        
+
     /**
-     * Speichert die gelesenen Kader-Einträge in die H2-Datenbank.
+     * Speichert die gelesenen Saisons-Einträge in die H2-Datenbank.
+     */
+    @Transactional
+    private int importSaisons(String csvFileName) throws Exception {
+        List<String> records = List.of();
+        int count = 0;
+        //Saison;Liga;Spiele;Platz;Punkte;Bemerkungen;Performanceindex;Import_Tabelle;Import_Spiele;Quelle
+        String INSERT_SQL = "INSERT INTO saisons (ID, SAISON, LIGA, SPIELE, PLATZ, PUNKTE" +
+                    ", BEMERKUNGEN, PERFORMANCEINDEX, IMPORT_TABELLE, IMPORT_SPIELE, QUELLE) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        Class.forName("org.h2.Driver"); 
+
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL);
+             Statement stmt = connection.createStatement()) {
+            records = readCsv(csvFileName);            
+
+            connection.setAutoCommit(false); 
+
+            System.out.println("Starte Import von " + records.size() + " Datensätzen...");
+            stmt.execute("DELETE FROM saisons");
+
+            for (String record : records) {
+                String[] values = record.split(";", -1);      
+
+                // Parameter für das Prepared Statement setzen (Index beginnt bei 1) 
+                //Saison;Liga;Spiele;Platz;Punkte;Bemerkungen;Performanceindex;Import_Tabelle;Import_Spiele;Quelle
+                preparedStatement.setInt(1, count);
+                preparedStatement.setString(2, values[0].trim()); // Saison
+                preparedStatement.setString(3, values[1].trim()); // Liga
+                preparedStatement.setInt(4, cleanNumber(values[2])); // Spiele
+                preparedStatement.setInt(5, cleanNumber(values[3]));  // Platz
+                preparedStatement.setInt(6, cleanNumber(values[4]));  // Punkte
+                preparedStatement.setString(7, values[5].trim()); // Bemerkungen
+                preparedStatement.setString(8, values[6].trim()); // Performanceindex
+                preparedStatement.setString(9, values[7].trim()); // Import_Tabelle
+                preparedStatement.setString(10, values[8].trim()); // Import_Spiele
+                preparedStatement.setString(11, values[9].trim()); // Quelle
+                
+                preparedStatement.addBatch();
+                count++;
+
+                // Batch ausführen
+                if (count % BATCH_SIZE == 0) {
+                    preparedStatement.executeBatch();
+                    connection.commit(); 
+                    System.out.println("-> Batch # " + (count / BATCH_SIZE) + " committed.");
+                }
+            }
+            
+            // Verbleibenden Batch ausführen
+            preparedStatement.executeBatch(); 
+            connection.commit(); 
+            connection.setAutoCommit(true); 
+            
+            System.out.println("✅ Import erfolgreich abgeschlossen. " + records.size() + " Datensätze importiert.");
+
+        } 
+        return count;
+    }
+
+
+    /**
+     * Speichert die gelesenen Abschlusstabelle-Einträge in die H2-Datenbank.
      */
     @Transactional
     private int importAbschlusstabelle(String csvFileName) throws Exception {
         List<String> records = List.of();
         int count = 0;
         //Saison;Quelle;Liga;Platz;Mannschaft;Spiele;g;u;v;Tore;Diff;Punkte
-        String INSERT_SQL = "INSERT INTO abschlusstabellen (ID, Saison,Quelle,Liga,Platz,Mannschaft,Spiele,g,u,v,Tore,Diff,Punkte) " +
+        String INSERT_SQL = "INSERT INTO abschlusstabellen (ID, Saison,Quelle,Liga,Platz,Mannschaft,Spiele,g,u,v,Tore,Tore_Diff,Punkte) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
         Class.forName("org.h2.Driver"); 
 
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL)) {
-            records = readCsv(csvFileName);            
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL);
+             Statement stmt = connection.createStatement()) {
+            records = readCsv(csvFileName);  
 
             connection.setAutoCommit(false); 
 
             System.out.println("Starte Import von " + records.size() + " Datensätzen...");
+            stmt.execute("DELETE FROM abschlusstabellen");
 
             for (String record : records) {
                 String[] values = record.split(";", -1);      
 
-                // Parameter für das Prepared Statement setzen (Index beginnt bei 1)                
+                // Parameter für das Prepared Statement setzen (Index beginnt bei 1)           
                 preparedStatement.setInt(1, count);
                 preparedStatement.setString(2, values[0].trim());
-                preparedStatement.setInt(3, cleanNumber(values[1]));
+                preparedStatement.setString(3, values[1].trim());
                 preparedStatement.setString(4, values[2].trim());
-                preparedStatement.setString(5, values[3].trim());
-                preparedStatement.setString(6, values[4].trim());
-                preparedStatement.setString(7, values[5].trim());
+                preparedStatement.setInt(5, cleanNumber(values[3]));  // Platz
+                preparedStatement.setString(6, values[4].trim()); // Mannschaft
+                preparedStatement.setInt(7, cleanNumber(values[5])); // Spiele
+                preparedStatement.setInt(8, cleanNumber(values[6])); // g
+                preparedStatement.setInt(9, cleanNumber(values[7])); // u
+                preparedStatement.setInt(10, cleanNumber(values[8])); // v
+                preparedStatement.setString(11, values[9].trim()); // Tore
+                preparedStatement.setInt(12, cleanNumber(values[10])); // Tore_Diff
+                preparedStatement.setInt(13, cleanNumber(values[11])); // Punkte
                 
                 preparedStatement.addBatch();
                 count++;
