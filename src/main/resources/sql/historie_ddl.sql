@@ -23,8 +23,8 @@ SELECT E.id, E.nachname, E.vorname, E.saison, E.spiel, E.einsatz, E.gruppe
                 CAST(SUBSTRING(E.einsatz, 1, POSITION('-', E.einsatz) - 1) AS INT) + 1
             ELSE 0
         END AS SPIELMINUTEN
-    , S.DATUM, S.GEGNER, S.ERGEBNIS, S.punkte, S.heim_oder_auswaerts HA, S.GESCHOSSEN, S.KASSIERT
-FROM        SPIELEREINSAETZE    E
+    , S.DATUM, S.GEGNER, S.ERGEBNIS, S.punkte, S.HA, S.GESCHOSSEN, S.KASSIERT
+FROM        KADER    E
 INNER JOIN  SPIELTAGE           S ON E.SAISON = S.SAISON AND E.SPIEL = S.SPIELTAG;
 
 -- Anzahl Saisons, erste und letzte je Tabelle

@@ -1,11 +1,14 @@
 package de.kheuwes.footballforwall.model.historie;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "abschlusstabellen")
 public class Abschlusstabelleneintrag {
 
     // Technischer Primärschlüssel für die Datenbank
@@ -24,6 +27,7 @@ public class Abschlusstabelleneintrag {
     private Integer u; // Unentschieden
     private Integer v; // Verloren
     private String tore; // Wird als String gespeichert (z.B. "94:30")
+    @Column(name = "tore_diff")
     private Integer diff; // Tordifferenz
     private Integer punkte;
 

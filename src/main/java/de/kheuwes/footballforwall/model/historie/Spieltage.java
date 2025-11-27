@@ -9,27 +9,17 @@ public class Spieltage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String saison;
-
     private int spieltag;
-
     private String datum;
-
-    @Column(length = 1)
+    @Column(length = 1, name = "ha")
     private String heimOderAuswaerts; // "H" oder "A"
-
     private String gegner;
-
     private String ergebnis;
-
     private int punkte;
-
     private int platz;
-
     @Column(length = 1000)
     private String geschossen; // z. B. "83|Marius Schomaker;69|Jonas Schomaker"
-
     private String kassiert;
 
     // --- Getter & Setter ---

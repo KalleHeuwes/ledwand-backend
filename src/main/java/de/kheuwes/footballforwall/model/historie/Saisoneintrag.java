@@ -2,12 +2,14 @@ package de.kheuwes.footballforwall.model.historie;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 
 /**
  * Entität zur Speicherung von Saisondaten und Performance-Informationen.
  */
 @Entity
+@Table(name = "saisons")
 public class Saisoneintrag {
 
     /**
@@ -35,7 +37,7 @@ public class Saisoneintrag {
     @Column(name = "bemerkungen")
     private String bemerkungen; // Aufsteiger (kann leer sein)
 
-    @Column(name = "performance_index")
+    @Column(name = "performanceindex")
     private int performanceIndex; // 419
 
     @Column(name = "import_tabelle")

@@ -28,14 +28,6 @@ public interface SpielerEinsatzRepository extends JpaRepository<SpielerEinsatz, 
            nativeQuery = true)
     List<Object[]> queryViewNative(String name);
 
-@Modifying
-@Transactional
-@Query(
-    value = "DELETE FROM spielereinsaetze", // <-- Die Basistabelle im SQL verwenden
-    nativeQuery = true // <-- Wichtig: Dies erzwingt die Ausführung von nativem SQL
-)
-void bulkDeleteAll();
-
     @Query("SELECT NEW de.kheuwes.footballforwall.model.historie.SpielerSaisonPerformance(" + 
            "e.nachname, e.vorname, e.saison, e.liga, e.spieleSpieler, e.spieleTeam, e.spieleAnteil" +
            ", e.spielminutenSpieler, e.spielminutenTeam, e.spielminutenAnteil" +
@@ -48,7 +40,7 @@ void bulkDeleteAll();
     );
 
     @Query(value = "SELECT DISTINCT CONCAT(nachname, ', ', vorname) AS spielername " +
-                   "FROM SPIELEREINSAETZE" , 
+                   "FROM KADER" , 
            nativeQuery = true)
     List<String> findSpielernamen();
 }

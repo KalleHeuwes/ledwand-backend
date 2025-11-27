@@ -67,51 +67,6 @@ public class DatenimportService {
         return anz;
     }
 
-    @Transactional
-    public <T> int importCsv(String csvFileName, int minColumnCount, JpaRepository<T, ?> repository, Function<String[], T> entryCreator
-    ) throws Exception {
-
-        System.out.println("Starte Datenimport aus: " + csvFileName);
-
-        try (BufferedReader reader = getReaderForCsv(csvFileName)) {
-            if(csvFileName.equals("historie/kader.csv")){ 
-                repoSpielerEinsatz.bulkDeleteAll();
-            }else{
-                repository.deleteAll();
-            }
-
-            String line;
-            boolean isHeader = true;
-            int importCounter = 0;
-
-            while ((line = reader.readLine()) != null) {
-                if (isHeader) {
-                    isHeader = false;
-                    continue;
-                }
-
-                String[] values = line.split(";", -1);
-
-                if (values.length < minColumnCount) {
-                    System.err.println("WARNUNG: Zeile übersprungen aufgrund fehlender Spalten: " + line);
-                    continue;
-                }
-
-                T eintrag = entryCreator.apply(values);
-                repository.save(eintrag);
-                importCounter++;
-            }
-
-            System.out.println("Datenimport erfolgreich abgeschlossen. " + importCounter + " Einträge importiert.");
-            return importCounter;
-
-        } catch (Exception e) {
-            System.err.println("FEHLER beim CSV-Datenimport: " + e.getMessage());
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
     private static List<String> readCsv(String filePath) throws Exception {
         System.out.println("Lese Semikolon-getrennte CSV-Datei: " + filePath);
         List<String> lines = new ArrayList<>();
