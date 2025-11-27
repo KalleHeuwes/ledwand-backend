@@ -8,6 +8,7 @@ import de.kheuwes.footballforwall.repository.historie.SaisoneintragRepository;
 import de.kheuwes.footballforwall.repository.historie.SpielerEinsatzRepository;
 import de.kheuwes.footballforwall.repository.historie.SpieltageRepository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
@@ -33,10 +34,14 @@ public class DatenimportService {
     private final SpielerEinsatzRepository repoSpielerEinsatz;
     private final SpieltageRepository repoSpieltage;
 
-    private static final String JDBC_URL = "jdbc:h2:file:./data/fussballDB";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "password";
-    private static final String INSERT_SQL = "INSERT INTO spielereinsaetze (ID, SAISON, SPIEL, NACHNAME, VORNAME, EINSATZ, GRUPPE) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    @Value("${spring.datasource.url}")
+    private String JDBC_URL;
+    
+    @Value("${spring.datasource.username}")
+    private String USER;
+
+    @Value("${spring.datasource.password}")
+    private String PASSWORD;
     private static final int BATCH_SIZE = 1000;
     
     // Konstruktor-Injektion (bevorzugte Methode in Spring)
@@ -51,10 +56,10 @@ public class DatenimportService {
     public int importAllData(){
         int anz=0;
         try {
-            anz+=importCsv("historie/abschlusstabellen.csv",  12, repoTabelle, this::createTabelleEntry );
-            anz+=importCsv("historie/saisons.csv",  10, repoSaison, this::createSaisonEntry );
-            anz+=importKader("historie/kader.csv",  6);
-            anz+=importCsv("historie/spieltage.csv",  10, repoSpieltage, this::createSpieltageEntry );
+            //anz+=importCsv("historie/abschlusstabellen.csv",  12, repoTabelle, this::createTabelleEntry );
+            //anz+=importCsv("historie/saisons.csv",  10, repoSaison, this::createSaisonEntry );
+            anz+=importKader("historie/kader.csv");
+            //anz+=importCsv("historie/spieltage.csv",  10, repoSpieltage, this::createSpieltageEntry );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,7 +119,7 @@ public class DatenimportService {
         try (InputStream inputStream = DatenimportService.class.getClassLoader().getResourceAsStream(filePath);
         InputStreamReader isr = new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1);
                  BufferedReader br = new BufferedReader(isr)) {
-                    String line = br.readLine();
+                    String line = br.readLine(); // Überspringt damit die Headerzeile
                     while ((line = br.readLine()) != null) {
                     if (!line.trim().isEmpty()) { 
                         lines.add(line);
@@ -124,49 +129,45 @@ public class DatenimportService {
         }
     }
 
+    private static int cleanNumber(String input) {
+        if (input == null) return 0;
+        String ret = input
+            .replaceAll("[^0-9]", "")   // 1. Entferne alle Zeichen, die KEINE Ziffern sind (0-9)
+            .trim();// 2. Trimme resultierende Leerzeichen
+        return ret.isEmpty() ? 0 : Integer.parseInt(ret);
+    }
+    
     /**
-     * Speichert die gelesenen CSV-Records in die H2-Datenbank.
+     * Speichert die gelesenen Kader-Einträge in die H2-Datenbank.
      */
-    private static void importDataToH2(List<String> records) throws Exception {
+    @Transactional
+    private int importKader(String csvFileName) throws Exception {
+        List<String> records = List.of();
+        int count = 0;
+        String INSERT_SQL = "INSERT INTO kader (ID, SAISON, SPIEL, NACHNAME, VORNAME, EINSATZ, GRUPPE) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
         Class.forName("org.h2.Driver"); 
 
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL)) {
+            records = readCsv(csvFileName);            
 
             connection.setAutoCommit(false); 
-            int count = 0;
 
             System.out.println("Starte Import von " + records.size() + " Datensätzen...");
 
             for (String record : records) {
-                //System.out.println(" * record " + record);
-                // Zugriff auf die Spalten über den Index (0 bis 5)
-                String[] values = record.split(";", -1);
-                String saison = values[0].trim();
-                String spielStr = values[1].trim();
-                String spielValueClean = spielStr
-                    // 1. Entferne alle Zeichen, die KEINE Ziffern sind (0-9)
-                    .replaceAll("[^0-9]", "")
-                    // 2. Trimme resultierende Leerzeichen (obwohl nach dem Regex unnötig, schadet es nicht)
-                        .trim();
-                
-                // Konvertierung der Zahlen (Spiel)
-                int spiel = Integer.parseInt(spielValueClean); 
-                
-                String nachname = values[2].trim();
-                String vorname = values[3].trim();
-                String einsatz = values[4].trim();
-                String gruppe = values[5].trim();
+                String[] values = record.split(";", -1);         
 
-                // Parameter für das Prepared Statement setzen (Index beginnt bei 1)
-                
+                // Parameter für das Prepared Statement setzen (Index beginnt bei 1)                
                 preparedStatement.setInt(1, count);
-                preparedStatement.setString(2, saison);
-                preparedStatement.setInt(3, spiel);
-                preparedStatement.setString(4, nachname);
-                preparedStatement.setString(5, vorname);
-                preparedStatement.setString(6, einsatz);
-                preparedStatement.setString(7, gruppe);
+                preparedStatement.setString(2, values[0].trim());
+                preparedStatement.setInt(3, cleanNumber(values[1]));
+                preparedStatement.setString(4, values[2].trim());
+                preparedStatement.setString(5, values[3].trim());
+                preparedStatement.setString(6, values[4].trim());
+                preparedStatement.setString(7, values[5].trim());
                 
                 preparedStatement.addBatch();
                 count++;
@@ -187,24 +188,62 @@ public class DatenimportService {
             System.out.println("✅ Import erfolgreich abgeschlossen. " + records.size() + " Datensätze importiert.");
 
         } 
+        return count;
     }
-
+        
+    /**
+     * Speichert die gelesenen Kader-Einträge in die H2-Datenbank.
+     */
     @Transactional
-    public int importKader(String csvFileName, int minColumnCount) throws Exception {
-
-        System.out.println("Starte Datenimport aus: " + csvFileName);
+    private int importAbschlusstabelle(String csvFileName) throws Exception {
         List<String> records = List.of();
+        int count = 0;
+        //Saison;Quelle;Liga;Platz;Mannschaft;Spiele;g;u;v;Tore;Diff;Punkte
+        String INSERT_SQL = "INSERT INTO abschlusstabellen (ID, Saison,Quelle,Liga,Platz,Mannschaft,Spiele,g,u,v,Tore,Diff,Punkte) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        Class.forName("org.h2.Driver"); 
 
-        try {
-            records = readCsv(csvFileName);
-            if (!records.isEmpty()) {
-                importDataToH2(records);
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL)) {
+            records = readCsv(csvFileName);            
+
+            connection.setAutoCommit(false); 
+
+            System.out.println("Starte Import von " + records.size() + " Datensätzen...");
+
+            for (String record : records) {
+                String[] values = record.split(";", -1);      
+
+                // Parameter für das Prepared Statement setzen (Index beginnt bei 1)                
+                preparedStatement.setInt(1, count);
+                preparedStatement.setString(2, values[0].trim());
+                preparedStatement.setInt(3, cleanNumber(values[1]));
+                preparedStatement.setString(4, values[2].trim());
+                preparedStatement.setString(5, values[3].trim());
+                preparedStatement.setString(6, values[4].trim());
+                preparedStatement.setString(7, values[5].trim());
+                
+                preparedStatement.addBatch();
+                count++;
+
+                // Batch ausführen
+                if (count % BATCH_SIZE == 0) {
+                    preparedStatement.executeBatch();
+                    connection.commit(); 
+                    System.out.println("-> Batch # " + (count / BATCH_SIZE) + " committed.");
+                }
             }
-        } catch (Exception e) {
-            System.err.println("Ein Fehler ist aufgetreten: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return records.size();
+            
+            // Verbleibenden Batch ausführen
+            preparedStatement.executeBatch(); 
+            connection.commit(); 
+            connection.setAutoCommit(true); 
+            
+            System.out.println("✅ Import erfolgreich abgeschlossen. " + records.size() + " Datensätze importiert.");
+
+        } 
+        return count;
     }
 
     // Helferfunktion für das Parsing von Integer-Werten
