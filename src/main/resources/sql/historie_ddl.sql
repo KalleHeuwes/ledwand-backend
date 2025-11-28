@@ -27,14 +27,24 @@ SELECT E.id, E.nachname, E.vorname, E.saison, E.spiel, E.einsatz, E.gruppe
 FROM        KADER    E
 INNER JOIN  SPIELTAGE           S ON E.SAISON = S.SAISON AND E.SPIEL = S.SPIELTAG;
 
+CREATE OR REPLACE VIEW PERFORMANCEVERGLEICH_VW AS 
+SELECT p.saison, p.liga, s.spiele
+, Count(*) spieler_anzahl
+, Min(spiele_spieler) spiele_min, Max(spiele_spieler) spiele_max, Round(Avg(spiele_spieler)) spiele_avg
+, Min(spielminuten_spieler) minuten_min, Max(spielminuten_spieler) minuten_max, Round(Avg(spielminuten_spieler)) minuten_avg
+, Min(punkte_spieler) punkte_min, Max(punkte_spieler) punkte_max, Round(Avg(punkte_spieler)) punkte_avg
+FROM SPIELERPERFORMANCE_VW p
+LEFT JOIN SAISONS s ON p.saison = s.saison
+GROUP BY p.saison, p.liga
+
 -- Anzahl Saisons, erste und letzte je Tabelle
 CREATE OR REPLACE VIEW STATUS_VW AS 
 SELECT 'ABSCHLUSSTABELLEN' kategorie, COUNT(DISTINCT saison) saison_anzahl, MIN(saison) saison_min, MAX(saison) saison_max 
-FROM ABSCHLUSSTABELLENEINTRAG UNION ALL
+FROM ABSCHLUSSTABELLEN UNION ALL
 SELECT 'SAISONS' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
-FROM SAISONEINTRAG UNION ALL
-SELECT 'SPIELEREINSAETZE' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
-FROM SPIELEREINSAETZE UNION ALL
+FROM SAISONS UNION ALL
+SELECT 'KADER' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM KADER UNION ALL
 SELECT 'SPIELTAGE' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
 FROM SPIELTAGE;
 

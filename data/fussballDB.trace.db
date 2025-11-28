@@ -804,3 +804,27 @@ SELECT DISTINCT CONCAT(nachname, ', ', vorname) AS spielername FROM SPIELEREINSA
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabelle "SPIELEREINSAETZE" nicht gefunden
 Table "SPIELEREINSAETZE" not found; SQL statement:
 SELECT DISTINCT CONCAT(nachname, ', ', vorname) AS spielername FROM SPIELEREINSAETZE [42102-232]
+2025-11-27 17:35:51.488116+01:00 jdbc[24]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabelle "ABSCHLUSSTABELLENEINTRAG" nicht gefunden
+Table "ABSCHLUSSTABELLENEINTRAG" not found; SQL statement:
+CREATE OR REPLACE VIEW STATUS_VW AS 
+SELECT 'ABSCHLUSSTABELLEN' kategorie, COUNT(DISTINCT saison) saison_anzahl, MIN(saison) saison_min, MAX(saison) saison_max 
+FROM ABSCHLUSSTABELLENEINTRAG UNION ALL
+SELECT 'SAISONS' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM SAISONEINTRAG UNION ALL
+SELECT 'KADER' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM KADER UNION ALL
+SELECT 'SPIELTAGE' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM SPIELTAGE [42102-232]
+2025-11-27 17:36:03.533848+01:00 jdbc[24]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabelle "SAISONEINTRAG" nicht gefunden
+Table "SAISONEINTRAG" not found; SQL statement:
+CREATE OR REPLACE VIEW STATUS_VW AS 
+SELECT 'ABSCHLUSSTABELLEN' kategorie, COUNT(DISTINCT saison) saison_anzahl, MIN(saison) saison_min, MAX(saison) saison_max 
+FROM ABSCHLUSSTABELLEN UNION ALL
+SELECT 'SAISONS' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM SAISONEINTRAG UNION ALL
+SELECT 'KADER' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM KADER UNION ALL
+SELECT 'SPIELTAGE' kategorie, COUNT(DISTINCT saison), MIN(saison) saison_min, MAX(saison) saison_max 
+FROM SPIELTAGE [42102-232]
