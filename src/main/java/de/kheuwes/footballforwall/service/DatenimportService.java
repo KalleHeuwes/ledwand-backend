@@ -85,12 +85,19 @@ public class DatenimportService {
         }
     }
 
-    private static int cleanNumber(String input) {
+    private static int cleanNumber(String input, String debugString) {
         if (input == null) return 0;
         String ret = input
             .replaceAll("[^0-9]", "")   // 1. Entferne alle Zeichen, die KEINE Ziffern sind (0-9)
             .trim();// 2. Trimme resultierende Leerzeichen
-        return ret.isEmpty() ? 0 : Integer.parseInt(ret);
+        try {
+            return ret.isEmpty() ? 0 : Integer.parseInt(ret);
+        } catch (NumberFormatException e) {
+            // e.printStackTrace();
+            System.out.println("Warnung: Konnte '" + input + "' nicht in eine Zahl umwandeln. Rückfall auf 0.");
+            System.out.println("debugString: '" + debugString + "'");
+            return 0; // Rückfall auf 0 bei einem Fehler
+        }
     }
     
     /**
@@ -123,13 +130,13 @@ public class DatenimportService {
                 //Saison;Spieltag;Datum;H/A;Gegner;Ergebnis;Punkte;Platz;Geschossen;Kassiert              
                 preparedStatement.setInt(1, count);
                 preparedStatement.setString(2, values[0].trim()); // Saison
-                preparedStatement.setInt(3, cleanNumber(values[1])); // Spieltag
+                preparedStatement.setInt(3, cleanNumber(values[1], record)); // Spieltag
                 preparedStatement.setString(4, values[2].trim());
                 preparedStatement.setString(5, values[3].trim());
                 preparedStatement.setString(6, values[4].trim());
                 preparedStatement.setString(7, values[5].trim());
-                preparedStatement.setInt(8, cleanNumber(values[6]));
-                preparedStatement.setInt(9, cleanNumber(values[7]));
+                preparedStatement.setInt(8, cleanNumber(values[6], '8' + record));
+                preparedStatement.setInt(9, cleanNumber(values[7], '9' + record));
                 preparedStatement.setString(10, values[8].trim());
                 preparedStatement.setString(11, values[9].trim());
                 
@@ -183,7 +190,7 @@ public class DatenimportService {
                 // Parameter für das Prepared Statement setzen (Index beginnt bei 1)                
                 preparedStatement.setInt(1, count);
                 preparedStatement.setString(2, values[0].trim());
-                preparedStatement.setInt(3, cleanNumber(values[1]));
+                preparedStatement.setInt(3, cleanNumber(values[1], record));
                 preparedStatement.setString(4, values[2].trim());
                 preparedStatement.setString(5, values[3].trim());
                 preparedStatement.setString(6, values[4].trim());
@@ -243,9 +250,9 @@ public class DatenimportService {
                 preparedStatement.setInt(1, count);
                 preparedStatement.setString(2, values[0].trim()); // Saison
                 preparedStatement.setString(3, values[1].trim()); // Liga
-                preparedStatement.setInt(4, cleanNumber(values[2])); // Spiele
-                preparedStatement.setInt(5, cleanNumber(values[3]));  // Platz
-                preparedStatement.setInt(6, cleanNumber(values[4]));  // Punkte
+                preparedStatement.setInt(4, cleanNumber(values[2], record)); // Spiele
+                preparedStatement.setInt(5, cleanNumber(values[3], record));  // Platz
+                preparedStatement.setInt(6, cleanNumber(values[4], record));  // Punkte
                 preparedStatement.setString(7, values[5].trim()); // Bemerkungen
                 preparedStatement.setString(8, values[6].trim()); // Performanceindex
                 preparedStatement.setString(9, values[7].trim()); // Import_Tabelle
@@ -306,15 +313,15 @@ public class DatenimportService {
                 preparedStatement.setString(2, values[0].trim());
                 preparedStatement.setString(3, values[1].trim());
                 preparedStatement.setString(4, values[2].trim());
-                preparedStatement.setInt(5, cleanNumber(values[3]));  // Platz
+                preparedStatement.setInt(5, cleanNumber(values[3], record));  // Platz
                 preparedStatement.setString(6, values[4].trim()); // Mannschaft
-                preparedStatement.setInt(7, cleanNumber(values[5])); // Spiele
-                preparedStatement.setInt(8, cleanNumber(values[6])); // g
-                preparedStatement.setInt(9, cleanNumber(values[7])); // u
-                preparedStatement.setInt(10, cleanNumber(values[8])); // v
+                preparedStatement.setInt(7, cleanNumber(values[5], record)); // Spiele
+                preparedStatement.setInt(8, cleanNumber(values[6], record)); // g
+                preparedStatement.setInt(9, cleanNumber(values[7], record)); // u
+                preparedStatement.setInt(10, cleanNumber(values[8], record)); // v
                 preparedStatement.setString(11, values[9].trim()); // Tore
-                preparedStatement.setInt(12, cleanNumber(values[10])); // Tore_Diff
-                preparedStatement.setInt(13, cleanNumber(values[11])); // Punkte
+                preparedStatement.setInt(12, cleanNumber(values[10], record)); // Tore_Diff
+                preparedStatement.setInt(13, cleanNumber(values[11], record)); // Punkte
                 
                 preparedStatement.addBatch();
                 count++;

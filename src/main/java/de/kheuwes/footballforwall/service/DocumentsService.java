@@ -29,4 +29,9 @@ public class DocumentsService {
     public List<FileItem> getDocsForSaisonAndSpieltag(String typ, String saison, String spieltag) {
         return FolderLister.getDocsForSaisonAndSpieltag(typ, getDocumentsRootPath(), saison, spieltag);
     }
+
+    public List<FileItem> getImagesList(String spielername) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getImagesList'");
+    }
 }
