@@ -51,16 +51,6 @@ FROM SPIELTAGE;
 drop table spielereinsaetze;
 create table spielereinsaetze (ID integer, SAISON varchar(20), SPIEL integer, NACHNAME varchar(50), VORNAME varchar(50), EINSATZ varchar(20), GRUPPE varchar(20));
 
-/* WIRD NICHT MEHR GEBRAUCHT
--- View zum Einsatz der Spieler in den Spielen, Enthält die Gruppierung in Startelf, Bank und Kader
-CREATE OR REPLACE VIEW SPIELER_EINSATZ_VW AS 
-SELECT s.saison, e.spielnummer, s.nachname, s.vorname , e.wert AS einsatz
-,   CASE
-        WHEN Left(wert, 1)  = '1'       THEN '01_Startelf'
-        WHEN wert           = 'Voll'    THEN '01_Startelf'
-        WHEN wert           = 'Kader'   THEN '03_Kader'
-                                        ELSE '02_Bank'
-    END AS Gruppe
-FROM SPIELEREINSAETZE s
-INNER JOIN SPIELER_EINSATZ_SPIELE e ON s.ID = e.spieler_einsatz_id;
-*/
+CREATE OR REPLACE VIEW SPIELER_METADATEN_VW AS 
+SELECT nachname, vorname, nachname || ',' || Left(vorname, 1) kuerzel, 'A' status 
+FROM KADER GROUP BY nachname, vorname;

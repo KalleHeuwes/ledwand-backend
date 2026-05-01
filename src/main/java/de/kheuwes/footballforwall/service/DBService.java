@@ -7,7 +7,6 @@ import java.sql.Statement;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 /*
@@ -16,13 +15,8 @@ import org.springframework.stereotype.Service;
 */
 @Service
 public class DBService implements CommandLineRunner {
-
-    // Spring Boot injiziert den konfigurierten JdbcTemplate.
-    private final JdbcTemplate jdbcTemplate;
-
     // Konstruktor-Injektion (empfohlen)
-    public DBService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public DBService() {
     }
 
     // Die Methode, die beim Start der Anwendung automatisch ausgeführt wird
@@ -162,12 +156,11 @@ public class DBService implements CommandLineRunner {
 
     public static String getDDLSpielerMetadaten(){
         //
-        return "CREATE TABLE spieler (\n" +
-               "    id SERIAL PRIMARY KEY,\n" +
+        return "CREATE TABLE IF NOT EXISTS spieler (\n" +
                "    nachname VARCHAR(100) NOT NULL,\n" +
                "    vorname VARCHAR(100) NOT NULL,\n" +
                "    kuerzel VARCHAR(50) NOT NULL,\n" +
-               "    geburtsdatum VARCHAR(20) NOT NULL,\n" +
+               "    status VARCHAR(20) NOT NULL\n" +
                ");";
     }
 }

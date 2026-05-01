@@ -31,7 +31,6 @@ public class DocumentsService {
     }
 
     public List<FileItem> getImagesList(String spielername) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getImagesList'");
     }
 }
