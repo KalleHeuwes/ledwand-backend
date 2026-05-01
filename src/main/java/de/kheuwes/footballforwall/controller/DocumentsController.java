@@ -33,4 +33,9 @@ public class DocumentsController {
     public List<FileItem> getDocsForSaisonAndSpieltag(@RequestParam String typ, @RequestParam String saison, @RequestParam String spieltag) {
         return this.documentsService.getDocsForSaisonAndSpieltag(typ, saison, spieltag);
     }
+
+    @GetMapping("/api/historie/player-images")
+    public List<FileItem> getImagesList(@RequestParam String spielername) {
+        return this.documentsService.getImagesList(spielername);
+    }
 }
