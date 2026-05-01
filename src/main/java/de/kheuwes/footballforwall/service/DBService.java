@@ -56,6 +56,7 @@ public class DBService implements CommandLineRunner {
             execDDL(conn, "Saisons", getDDLSaisons());
             execDDL(conn, "Kader", getDDLKader());
             execDDL(conn, "Spieltage", getDDLSpieltage());
+            execDDL(conn, "Spieler", getDDLSpielerMetadaten());
 
         } catch (SQLException se) {
             // Fehler bei der JDBC-Verarbeitung
@@ -159,22 +160,14 @@ public class DBService implements CommandLineRunner {
                ");";
     }
 
-    public static String getDDLSpielerEinsatz(){
-        //Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe;Punkte;Spielminuten;Datum;H/A;Ergebnis;Gegner
-        return "CREATE TABLE spielereinsaetze (\n" +
+    public static String getDDLSpielerMetadaten(){
+        //
+        return "CREATE TABLE spieler (\n" +
                "    id SERIAL PRIMARY KEY,\n" +
-               "    saison VARCHAR(10) NOT NULL,\n" +
-               "    spiel INT NOT NULL,\n" +
                "    nachname VARCHAR(100) NOT NULL,\n" +
                "    vorname VARCHAR(100) NOT NULL,\n" +
-               "    einsatz VARCHAR(50) NOT NULL,\n" +
-               "    gruppe VARCHAR(50) NOT NULL,\n" +
-               "    punkte INT NOT NULL,\n" +
-               "    spielminuten INT NOT NULL,\n" +
-               "    datum VARCHAR(20) NOT NULL,\n" +
-               "    ha VARCHAR(5) NOT NULL,\n" +
-               "    ergebnis VARCHAR(20) NOT NULL,\n" +
-               "    gegner VARCHAR(100) NOT NULL\n" +
+               "    kuerzel VARCHAR(50) NOT NULL,\n" +
+               "    geburtsdatum VARCHAR(20) NOT NULL,\n" +
                ");";
     }
 }
