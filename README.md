@@ -31,6 +31,18 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Installation
 npm i --save ngx-mat-timepicker
 
+## ToDo
+### Spielersteckbrief
+- Spieleinsätze
+- Tore
+- Torvideos
+- Fotos
+### Spielerverwaltung
+- Name
+- Vorname
+- Geburtsdatum ?
+- Eindeutigkeit (NN, VN [, LfdNr])
+- Fotokürzel (NN-[1. Buchstabe VN])
 
 ## GIT
 git add .

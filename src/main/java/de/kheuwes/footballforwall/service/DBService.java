@@ -7,7 +7,6 @@ import java.sql.Statement;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 /*
@@ -16,13 +15,8 @@ import org.springframework.stereotype.Service;
 */
 @Service
 public class DBService implements CommandLineRunner {
-
-    // Spring Boot injiziert den konfigurierten JdbcTemplate.
-    private final JdbcTemplate jdbcTemplate;
-
     // Konstruktor-Injektion (empfohlen)
-    public DBService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public DBService() {
     }
 
     // Die Methode, die beim Start der Anwendung automatisch ausgeführt wird
@@ -56,6 +50,7 @@ public class DBService implements CommandLineRunner {
             execDDL(conn, "Saisons", getDDLSaisons());
             execDDL(conn, "Kader", getDDLKader());
             execDDL(conn, "Spieltage", getDDLSpieltage());
+            execDDL(conn, "Spieler", getDDLSpielerMetadaten());
 
         } catch (SQLException se) {
             // Fehler bei der JDBC-Verarbeitung
@@ -159,22 +154,13 @@ public class DBService implements CommandLineRunner {
                ");";
     }
 
-    public static String getDDLSpielerEinsatz(){
-        //Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe;Punkte;Spielminuten;Datum;H/A;Ergebnis;Gegner
-        return "CREATE TABLE spielereinsaetze (\n" +
-               "    id SERIAL PRIMARY KEY,\n" +
-               "    saison VARCHAR(10) NOT NULL,\n" +
-               "    spiel INT NOT NULL,\n" +
+    public static String getDDLSpielerMetadaten(){
+        //
+        return "CREATE TABLE IF NOT EXISTS spieler (\n" +
                "    nachname VARCHAR(100) NOT NULL,\n" +
                "    vorname VARCHAR(100) NOT NULL,\n" +
-               "    einsatz VARCHAR(50) NOT NULL,\n" +
-               "    gruppe VARCHAR(50) NOT NULL,\n" +
-               "    punkte INT NOT NULL,\n" +
-               "    spielminuten INT NOT NULL,\n" +
-               "    datum VARCHAR(20) NOT NULL,\n" +
-               "    ha VARCHAR(5) NOT NULL,\n" +
-               "    ergebnis VARCHAR(20) NOT NULL,\n" +
-               "    gegner VARCHAR(100) NOT NULL\n" +
+               "    kuerzel VARCHAR(50) NOT NULL,\n" +
+               "    status VARCHAR(20) NOT NULL\n" +
                ");";
     }
 }
