@@ -35,7 +35,7 @@ public class DocumentsController {
     }
 
     @GetMapping("/api/historie/player-images")
-    public List<FileItem> getImagesList(@RequestParam String spielername) {
+    public List<String> getImagesList(@RequestParam String spielername) {
         return this.documentsService.getImagesList(spielername);
     }
 }

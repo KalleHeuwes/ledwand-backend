@@ -30,7 +30,8 @@ public class DocumentsService {
         return FolderLister.getDocsForSaisonAndSpieltag(typ, getDocumentsRootPath(), saison, spieltag);
     }
 
-    public List<FileItem> getImagesList(String spielername) {
-        throw new UnsupportedOperationException("Unimplemented method 'getImagesList'");
+    public List<String> getImagesList(String spielername) {
+        return FolderLister.getPicsOfPerson(getDocumentsRootPath(), spielername);
     }
 }
+    
