@@ -54,3 +54,8 @@ create table spielereinsaetze (ID integer, SAISON varchar(20), SPIEL integer, NA
 CREATE OR REPLACE VIEW SPIELER_METADATEN_VW AS 
 SELECT nachname, vorname, nachname || ',' || Left(vorname, 1) kuerzel, 'A' status 
 FROM KADER GROUP BY nachname, vorname;
+
+CREATE OR REPLACE VIEW SPIELE_UEBERSICHT_VW AS 
+SELECT saison, min(spieltag), max(spieltag), count(*) 
+FROM SPIELTAGE 
+GROUP BY saison ORDER BY 1;

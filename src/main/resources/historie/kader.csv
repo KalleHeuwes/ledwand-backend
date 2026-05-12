@@ -40,6 +40,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;15;Böggemann;Janes;68-90;02_Bank
 2025/26;16;Böggemann;Janes;1-58;01_Startelf
 2025/26;17;Böggemann;Janes;Kader;03_Kader
+2025/26;27;Böggemann;Janes;76-90;02_Bank
 2025/26;2;Borgmann;Jonas;81-90;02_Bank
 2025/26;3;Borgmann;Jonas;86-90;02_Bank
 2025/26;4;Borgmann;Jonas;Kader;03_Kader
@@ -88,6 +89,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Demirdag;Engin;64-90;02_Bank
 2025/26;25;Demirdag;Engin;90-90;02_Bank
 2025/26;26;Demirdag;Engin;64-90;02_Bank
+2025/26;27;Demirdag;Engin;Voll;01_Startelf
 2025/26;1;Fousseni;Adinane;Voll;01_Startelf
 2025/26;2;Fousseni;Adinane;73-90;02_Bank
 2025/26;3;Fousseni;Adinane;Kader;03_Kader
@@ -136,6 +138,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Heinz;Merlin;1-90;01_Startelf
 2025/26;25;Heinz;Merlin;Voll;01_Startelf
 2025/26;26;Heinz;Merlin;Voll;01_Startelf
+2025/26;27;Heinz;Merlin;Voll;01_Startelf
 2025/26;12;Hellwig;Noah;90-90;02_Bank
 2025/26;14;Hellwig;Noah;Kader;03_Kader
 2025/26;4;Homann;Marvin;Kader;03_Kader
@@ -164,6 +167,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Klöpper;Marius;Voll;01_Startelf
 2025/26;25;Klöpper;Marius;Voll;01_Startelf
 2025/26;26;Klöpper;Marius;Voll;01_Startelf
+2025/26;27;Klöpper;Marius;Voll;01_Startelf
 2025/26;8;Kötter;Marco;86-90;02_Bank
 2025/26;9;Kötter;Marco;82-90;02_Bank
 2025/26;10;Kötter;Marco;57-90;02_Bank
@@ -182,6 +186,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Kötter;Marco;1-74;01_Startelf
 2025/26;25;Kötter;Marco;1-63;01_Startelf
 2025/26;26;Kötter;Marco;1-90;01_Startelf
+2025/26;27;Kötter;Marco;1-76;01_Startelf
 2025/26;17;Matsubara;Daiki;1-45;01_Startelf
 2025/26;18;Matsubara;Daiki;Kader;03_Kader
 2025/26;19;Matsubara;Daiki;1-45;01_Startelf
@@ -191,6 +196,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;23;Matsubara;Daiki;1-61;01_Startelf
 2025/26;24;Matsubara;Daiki;68-90;02_Bank
 2025/26;25;Matsubara;Daiki;63-90;02_Bank
+2025/26;27;Matsubara;Daiki;65-90;02_Bank
 2025/26;3;Meller;Nils;54-90;02_Bank
 2025/26;5;Meller;Nils;Kader;03_Kader
 2025/26;7;Meller;Nils;Kader;03_Kader
@@ -231,6 +237,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Merker;Tim;Voll;01_Startelf
 2025/26;25;Merker;Tim;Voll;01_Startelf
 2025/26;26;Merker;Tim;Voll;01_Startelf
+2025/26;27;Merker;Tim;Voll;01_Startelf
 2025/26;1;Möllers;Henrik;1-72;01_Startelf
 2025/26;2;Möllers;Henrik;Voll;01_Startelf
 2025/26;3;Möllers;Henrik;1-66;01_Startelf
@@ -251,6 +258,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Möllers;Henrik;1-68;01_Startelf
 2025/26;25;Möllers;Henrik;1-82;01_Startelf
 2025/26;26;Möllers;Henrik;Voll;01_Startelf
+2025/26;27;Möllers;Henrik;1-65;01_Startelf
 2025/26;11;Natola;Toni;Kader;03_Kader
 2025/26;12;Natola;Toni;83-90;02_Bank
 2025/26;14;Natola;Toni;65-90;02_Bank
@@ -289,6 +297,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Over;Janis;Voll;01_Startelf
 2025/26;25;Over;Janis;Voll;01_Startelf
 2025/26;26;Over;Janis;Voll;01_Startelf
+2025/26;27;Over;Janis;Voll;01_Startelf
 2025/26;1;Rehr;Hannes;80-90;02_Bank
 2025/26;2;Rehr;Hannes;88-90;02_Bank
 2025/26;3;Rehr;Hannes;75-90;02_Bank
@@ -327,6 +336,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Schäfer;Jonas;Voll;01_Startelf
 2025/26;25;Schäfer;Jonas;Voll;01_Startelf
 2025/26;26;Schäfer;Jonas;Voll;01_Startelf
+2025/26;27;Schäfer;Jonas;Voll;01_Startelf
 2025/26;1;Schomaker;Jonas;72-90;02_Bank
 2025/26;2;Schomaker;Jonas;46-90;02_Bank
 2025/26;3;Schomaker;Jonas;66-90;02_Bank
@@ -353,6 +363,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Schomaker;Jonas;86-90;02_Bank
 2025/26;25;Schomaker;Jonas;78-90;02_Bank
 2025/26;26;Schomaker;Jonas;75-90;02_Bank
+2025/26;27;Schomaker;Jonas;82-90;02_Bank
 2025/26;1;Schomaker;Marius;Voll;01_Startelf
 2025/26;2;Schomaker;Marius;Voll;01_Startelf
 2025/26;3;Schomaker;Marius;1-54;01_Startelf
@@ -379,6 +390,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Schomaker;Marius;1-86;01_Startelf
 2025/26;25;Schomaker;Marius;1-90;01_Startelf
 2025/26;26;Schomaker;Marius;1-71;01_Startelf
+2025/26;27;Schomaker;Marius;Voll;01_Startelf
 2025/26;8;Strätker;Joshua;Kader;03_Kader
 2025/26;11;Strätker;Joshua;Kader;03_Kader
 2025/26;12;Strätker;Joshua;Voll;01_Startelf
@@ -410,6 +422,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Tillmann;Luca;Voll;01_Startelf
 2025/26;25;Tillmann;Luca;1-78;01_Startelf
 2025/26;26;Tillmann;Luca;1-75;01_Startelf
+2025/26;27;Tillmann;Luca;Voll;01_Startelf
 2025/26;1;Venikh;Jürgen;1-80;01_Startelf
 2025/26;2;Venikh;Jürgen;1-88;01_Startelf
 2025/26;5;Venikh;Jürgen;69-90;02_Bank
@@ -431,6 +444,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;24;Venikh;Jürgen;1-64;01_Startelf
 2025/26;25;Venikh;Jürgen;Voll;01_Startelf
 2025/26;26;Venikh;Jürgen;1-88;01_Startelf
+2025/26;27;Venikh;Jürgen;1-82;01_Startelf
 2025/26;3;Walbaum;Jan;62-90;02_Bank
 2025/26;4;Walbaum;Jan;65-90;02_Bank
 2025/26;5;Walbaum;Jan;46-90;02_Bank
@@ -475,6 +489,7 @@ Saison;Spiel;Nachname;Vorname;Einsatz;Gruppe
 2025/26;23;Wenning;Tom;Kader;03_Kader
 2025/26;25;Wenning;Tom;Kader;03_Kader
 2025/26;26;Wenning;Tom;Kader;03_Kader
+2025/26;27;Wenning;Tom;Kader;03_Kader
 2024/25;16;Befus;Tim;Kader;03_Kader
 2024/25;18;Befus;Tim;Kader;03_Kader
 2024/25;21;Befus;Tim;Kader;03_Kader
