@@ -51,6 +51,7 @@ public class DBService implements CommandLineRunner {
             execDDL(conn, "Kader", getDDLKader());
             execDDL(conn, "Spieltage", getDDLSpieltage());
             execDDL(conn, "Spieler", getDDLSpielerMetadaten());
+            execDDL(conn, "EV-Baelle", getDDLEVBaelleMetadaten());
 
         } catch (SQLException se) {
             // Fehler bei der JDBC-Verarbeitung
@@ -161,6 +162,18 @@ public class DBService implements CommandLineRunner {
                "    vorname VARCHAR(100) NOT NULL,\n" +
                "    kuerzel VARCHAR(50) NOT NULL,\n" +
                "    status VARCHAR(20) NOT NULL\n" +
+               ");";
+    }
+
+    public static String getDDLEVBaelleMetadaten(){
+        // Saison2526_10_Bälle.png,J. Schomaker,2
+        return "CREATE TABLE IF NOT EXISTS ev_baelle (\n" +
+               "    dateiname   VARCHAR(100)    NULL,\n" +
+               "    saison      VARCHAR(10)     NULL,\n" +
+               "    spieltag    INT             NULL,\n" +
+               "    spieler     VARCHAR(100)    NULL,\n" +
+               "    anz_baelle  INT             NULL,\n" +
+               "    kuerzel     VARCHAR(100)    NULL\n" +
                ");";
     }
 }

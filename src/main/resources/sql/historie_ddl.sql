@@ -59,3 +59,8 @@ CREATE OR REPLACE VIEW SPIELE_UEBERSICHT_VW AS
 SELECT saison, min(spieltag), max(spieltag), count(*) 
 FROM SPIELTAGE 
 GROUP BY saison ORDER BY 1;
+
+CREATE OR REPLACE VIEW SPIELER_VW AS 
+SELECT nachname, vorname, kuerzel, status, Left(vorname, 1) || '. ' || nachname AS kuerzel_ev
+FROM SPIELER
+ORDER BY 1, 2;

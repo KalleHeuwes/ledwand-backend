@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -38,7 +39,9 @@ public class DatenimportService {
             anz+=importSaisons("historie/saisons.csv" );
             anz+=importKader("historie/kader.csv");
             anz+=importSpieltage("historie/spieltage.csv" );
+            anz+=importEVBaelle("historie/ev-baelle.csv" );
             anz+=importSpieler();
+            updates();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,12 +49,16 @@ public class DatenimportService {
     }
 
     private static List<String> readCsv(String filePath) throws Exception {
+        return readCsvMitCharset(filePath, StandardCharsets.ISO_8859_1);
+    }
+
+    private static List<String> readCsvMitCharset(String filePath, Charset charset) throws Exception {
         System.out.println("Lese Semikolon-getrennte CSV-Datei: " + filePath);
         List<String> lines = new ArrayList<>();
         
 
         try (InputStream inputStream = DatenimportService.class.getClassLoader().getResourceAsStream(filePath);
-        InputStreamReader isr = new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1);
+        InputStreamReader isr = new InputStreamReader(inputStream, charset);
                  BufferedReader br = new BufferedReader(isr)) {
                     String line = br.readLine(); // Überspringt damit die Headerzeile
                     while ((line = br.readLine()) != null) {
@@ -323,6 +330,60 @@ public class DatenimportService {
         return count;
     }
 
+    @Transactional
+    private int importEVBaelle(String csvFileName) throws Exception {
+        List<String> records = List.of();
+        int count = 0;
+        //Dateiname,Spielername,Anzahl der Bälle
+        String INSERT_SQL = "INSERT INTO ev_baelle (Dateiname, Spieler, Anz_Baelle, Saison, Spieltag) " +
+                    "VALUES (?, ?, ?, ?, ?)";
+    
+        Class.forName("org.h2.Driver"); 
+
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL);
+             Statement stmt = connection.createStatement()) {
+            records = readCsvMitCharset(csvFileName, StandardCharsets.UTF_8);
+
+            connection.setAutoCommit(false); 
+
+            System.out.println("Starte Import von " + records.size() + " Datensätzen...");
+            stmt.execute("DELETE FROM ev_baelle");
+
+            for (String record : records) {
+                String[] values = record.split(",", -1); 
+                String[] fileParts = values[0].split("_", -1);
+                String saison = fileParts[0].replaceAll("Saison", "");
+                saison = "20" + saison.substring(0, 2) + "/" + saison.substring(2, 4);
+                String spieltagStr = fileParts[1];
+
+                // Parameter für das Prepared Statement setzen (Index beginnt bei 1)           
+                preparedStatement.setString(1, values[0].trim());
+                preparedStatement.setString(2, values[1].trim());
+                preparedStatement.setInt(3, cleanNumber(values[2], record));
+                preparedStatement.setString(4, saison); // Saison
+                preparedStatement.setInt(5, cleanNumber(spieltagStr, values[0])); // Spiel
+                preparedStatement.addBatch();
+                count++;
+
+                // Batch ausführen
+                if (count % BATCH_SIZE == 0) {
+                    preparedStatement.executeBatch();
+                    connection.commit(); 
+                    System.out.println("-> Batch # " + (count / BATCH_SIZE) + " committed.");
+                }
+            }
+            
+            // Verbleibenden Batch ausführen
+            preparedStatement.executeBatch(); 
+            connection.commit(); 
+            connection.setAutoCommit(true); 
+            
+            System.out.println("✅ Import erfolgreich abgeschlossen. " + records.size() + " Datensätze importiert.");
+
+        } 
+        return count;
+    }
      
     /**
      * Speichert die gelesenen Kader-Einträge in die H2-Datenbank.
@@ -349,6 +410,39 @@ public class DatenimportService {
 
         } 
         return count;
+    }
+
+    @Transactional
+    public void updates() throws Exception {
+        int count = 0;
+
+        Class.forName("org.h2.Driver"); 
+
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+             Statement stmt = connection.createStatement()) {
+
+            connection.setAutoCommit(false); 
+
+            System.out.println("Starte Updates ...");
+            stmt.execute("UPDATE ev_baelle SET spieler = 'Andrade' WHERE spieler = 'Andrade Gregorio'");
+            stmt.execute("UPDATE ev_baelle " +
+            "SET kuerzel = ( " +
+                "SELECT spieler_vw.kuerzel FROM spieler_vw WHERE ev_baelle.spieler = spieler_vw.kuerzel_ev ) " +
+                "WHERE EXISTS (SELECT 1    FROM spieler_vw WHERE ev_baelle.spieler = spieler_vw.kuerzel_ev);");
+            stmt.execute("UPDATE ev_baelle " +
+            "SET kuerzel = ( " +
+                "SELECT DISTINCT spieler_vw.kuerzel FROM spieler_vw WHERE ev_baelle.spieler = spieler_vw.nachname ) " +
+                "WHERE kuerzel IS NULL " +
+                "  AND EXISTS (SELECT 1             FROM spieler_vw WHERE ev_baelle.spieler = spieler_vw.nachname);");
+
+            connection.commit(); 
+            connection.setAutoCommit(true); 
+            
+            System.out.println("✅ Updates erfolgreich abgeschlossen. " + count + " Datensätze aktualisiert.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Helferfunktion für das Parsing von Integer-Werten
