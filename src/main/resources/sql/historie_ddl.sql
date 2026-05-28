@@ -64,3 +64,54 @@ CREATE OR REPLACE VIEW SPIELER_VW AS
 SELECT nachname, vorname, kuerzel, status, Left(vorname, 1) || '. ' || nachname AS kuerzel_ev
 FROM SPIELER
 ORDER BY 1, 2;
+
+CREATE OR REPLACE VIEW EV_BAELLE_GRP_VW AS
+SELECT saison, Count(*) spielerbaelle_anz, Count(DISTINCT spieltag) spieltage_anz
+    , Min(spieltag) spieltag_min, Max(spieltag) spieltag_max 
+FROM EV_BAELLE GROUP BY saison;
+
+CREATE OR REPLACE VIEW EV_BAELLE_SPIELER_VW AS
+SELECT spieler, saison, Count(*) baelle_anz
+    , Round(Avg(anz_baelle), 2) baelle_avg, Min(anz_baelle) baelle_min, Max(anz_baelle) baelle_max
+FROM EV_BAELLE GROUP BY spieler, saison;
+
+CREATE OR REPLACE VIEW EV_BAELLE_PIVOT_VW AS
+SELECT 
+    spieler, saison,
+    SUM(CASE WHEN spieltag =  1 THEN anz_baelle ELSE null END) AS spieltag_01,
+    SUM(CASE WHEN spieltag =  2 THEN anz_baelle ELSE null END) AS spieltag_02,
+    SUM(CASE WHEN spieltag =  3 THEN anz_baelle ELSE null END) AS spieltag_03,
+    SUM(CASE WHEN spieltag =  4 THEN anz_baelle ELSE null END) AS spieltag_04,
+    SUM(CASE WHEN spieltag =  5 THEN anz_baelle ELSE null END) AS spieltag_05,
+    SUM(CASE WHEN spieltag =  6 THEN anz_baelle ELSE null END) AS spieltag_06,
+    SUM(CASE WHEN spieltag =  7 THEN anz_baelle ELSE null END) AS spieltag_07,
+    SUM(CASE WHEN spieltag =  8 THEN anz_baelle ELSE null END) AS spieltag_08,
+    SUM(CASE WHEN spieltag =  9 THEN anz_baelle ELSE null END) AS spieltag_09,
+    SUM(CASE WHEN spieltag = 10 THEN anz_baelle ELSE null END) AS spieltag_10,
+    SUM(CASE WHEN spieltag = 11 THEN anz_baelle ELSE null END) AS spieltag_11,
+    SUM(CASE WHEN spieltag = 12 THEN anz_baelle ELSE null END) AS spieltag_12,
+    SUM(CASE WHEN spieltag = 13 THEN anz_baelle ELSE null END) AS spieltag_13,
+    SUM(CASE WHEN spieltag = 14 THEN anz_baelle ELSE null END) AS spieltag_14,
+    SUM(CASE WHEN spieltag = 15 THEN anz_baelle ELSE null END) AS spieltag_15,
+    SUM(CASE WHEN spieltag = 16 THEN anz_baelle ELSE null END) AS spieltag_16,
+    SUM(CASE WHEN spieltag = 17 THEN anz_baelle ELSE null END) AS spieltag_17,
+    SUM(CASE WHEN spieltag = 18 THEN anz_baelle ELSE null END) AS spieltag_18,
+    SUM(CASE WHEN spieltag = 19 THEN anz_baelle ELSE null END) AS spieltag_19,
+    SUM(CASE WHEN spieltag = 20 THEN anz_baelle ELSE null END) AS spieltag_20,
+    SUM(CASE WHEN spieltag = 21 THEN anz_baelle ELSE null END) AS spieltag_21,
+    SUM(CASE WHEN spieltag = 22 THEN anz_baelle ELSE null END) AS spieltag_22,
+    SUM(CASE WHEN spieltag = 23 THEN anz_baelle ELSE null END) AS spieltag_23,
+    SUM(CASE WHEN spieltag = 24 THEN anz_baelle ELSE null END) AS spieltag_24,
+    SUM(CASE WHEN spieltag = 25 THEN anz_baelle ELSE null END) AS spieltag_25,
+    SUM(CASE WHEN spieltag = 26 THEN anz_baelle ELSE null END) AS spieltag_26,
+    SUM(CASE WHEN spieltag = 27 THEN anz_baelle ELSE null END) AS spieltag_27,
+    SUM(CASE WHEN spieltag = 28 THEN anz_baelle ELSE null END) AS spieltag_28,
+    SUM(CASE WHEN spieltag = 29 THEN anz_baelle ELSE null END) AS spieltag_29,
+    SUM(CASE WHEN spieltag = 30 THEN anz_baelle ELSE null END) AS spieltag_30,
+    SUM(CASE WHEN spieltag = 31 THEN anz_baelle ELSE null END) AS spieltag_31,
+    SUM(CASE WHEN spieltag = 32 THEN anz_baelle ELSE null END) AS spieltag_32,
+    SUM(CASE WHEN spieltag = 33 THEN anz_baelle ELSE null END) AS spieltag_33,
+    SUM(CASE WHEN spieltag = 34 THEN anz_baelle ELSE null END) AS spieltag_34
+FROM   ev_baelle
+GROUP BY spieler, saison
+ORDER BY 1, 2
