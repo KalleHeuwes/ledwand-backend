@@ -1,7 +1,7 @@
 Saison;Spieltag;Datum;H/A;Gegner;Ergebnis;Punkte;Platz;Geschossen;Kassiert
 2025/26;1;10.08.2025;H;SV Dorsten Hardt;1:1;1;9;83|Marius Schomaker;69
 2025/26;2;17.08.2025;A;Westfalia Gemen;2:1;3;6;53|Marius Schomaker|61|Jonas Schomaker;19
-2025/26;3;24.08.2025;H;SG Bockum-Hövel;;;;;
+2025/26;3;24.08.2025;H;SG Bockum-Hövel;-;;;;
 2025/26;4;31.08.2025;A;Borussia Münster;1:6;0;7;41|Omar Guetat;11|27|52|58|73|87
 2025/26;5;07.09.2025;H;SW Lembeck;2:2;1;7;27|Jonas Schäfer|59|Engin Demirdag;55|68
 2025/26;6;14.09.2025;A;Ibbenbürener Spvg;3:2;3;5;45|Marius Schomaker|70|Jonas Schomaker|82|Jonas Schomaker;42|64
@@ -16,7 +16,7 @@ Saison;Spieltag;Datum;H/A;Gegner;Ergebnis;Punkte;Platz;Geschossen;Kassiert
 2025/26;15;16.11.2025;H;Vorwärts Wettringen;2:1;3;4;67|Tim Merker|74|Jan Walbaum;58
 2025/26;16;30.11.2025;A;SV Dorsten Hardt;1:3;0;6;5|Hannes Rehr;36|40|44
 2025/26;17;22.02.2026;H;Westfalia Gemen;1:2;0;8;66|Marius Klöpper;14|79
-2025/26;18;01.03.2026;A;SG Bockum-Hövel;;;;;
+2025/26;18;01.03.2026;A;SG Bockum-Hövel;-;;;;
 2025/26;19;08.03.2026;H;Borussia Münster;1:0;3;4;78|Henrik Möllers;
 2025/26;20;15.03.2026;A;SW Lembeck;4:2;3;3;5|Marius Schomaker|40|Luca Tillmann|88|Daiki Matsubara|90|Marius Schomaker;23|55
 2025/26;21;25.03.2026;H;Ibbenbürener Spvg;3:1;3;3;8|Marius Schomaker|12|Daiki Matsubara|87|Jonas Schomaker;31
@@ -29,7 +29,8 @@ Saison;Spieltag;Datum;H/A;Gegner;Ergebnis;Punkte;Platz;Geschossen;Kassiert
 2025/26;28;17.05.2026;A;Rot-Weiß Deuten;0:3;0;1;;74|81|86
 2025/26;29;25.05.2026;H;Hammer SpVg;3:4;0;3;36|Engin Demirdag|38|Daiki Matsubara|78|Marius Klöpper;2|23|49|90
 2025/26;30;31.05.2026;A;Vorwärts Wettringen;4:1;3;2;45|Engin Demirdag|64|Marius Schomaker|85|Marius Schomaker|90|Jonas Schomaker;43
-2025/26;31;04.06.2026;A;RW Kirchlengern;;0;;;
+2025/26;31;04.06.2026;A;RW Kirchlengern;0:2;0;;;39|82
+2025/26;32;07.06.2026;A;Germania Salchendorf;0:1;0;;;57
 2024/25;1;11.08.2024;H;Concordia Albachten;4:0;3;2;3|Marius Schomaker|29|Marius Schomaker|80|Henrik Möllers|85|Niklaas Houghton;
 2024/25;2;18.08.2024;A;Graf Kobbo Tecklenburg;4:0;3;1;50|Marius Klöpper|75|Jonas Schomaker|87|Marco Kötter|89|Marco Kötter;
 2024/25;3;25.08.2024;H;VFL Wolbeck;4:0;3;1;29|Jonas Schomaker|38|Marius Schomaker|55|Adinane Fousseni|63|Niklaas Houghton;
