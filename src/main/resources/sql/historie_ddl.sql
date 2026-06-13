@@ -23,9 +23,11 @@ SELECT E.id, E.nachname, E.vorname, E.saison, E.spiel, E.einsatz, E.gruppe
                 CAST(SUBSTRING(E.einsatz, 1, POSITION('-', E.einsatz) - 1) AS INT) + 1
             ELSE 0
         END AS SPIELMINUTEN
+    , B.ANZ_Baelle ev_baelle
     , S.DATUM, S.GEGNER, S.ERGEBNIS, S.punkte, S.HA, S.GESCHOSSEN, S.KASSIERT
-FROM        KADER    E
-INNER JOIN  SPIELTAGE           S ON E.SAISON = S.SAISON AND E.SPIEL = S.SPIELTAG;
+FROM        KADER       E
+INNER JOIN  SPIELTAGE   S ON E.SAISON = S.SAISON AND E.SPIEL = S.SPIELTAG
+ LEFT JOIN  EV_BAELLE   B ON E.SAISON = B.SAISON AND E.SPIEL = B.SPIELTAG AND E.nachname || ',' || Left(E.vorname, 1) = B.kuerzel;
 
 CREATE OR REPLACE VIEW PERFORMANCEVERGLEICH_VW AS 
 SELECT p.saison, p.liga, s.spiele
